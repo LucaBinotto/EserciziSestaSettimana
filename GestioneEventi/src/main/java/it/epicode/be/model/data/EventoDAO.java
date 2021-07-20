@@ -57,7 +57,7 @@ public class EventoDAO {
 		}
 	}
 
-	public void refresh(Evento ev) {
+	public void update(Evento ev) {
 
 		EntityManager em = factory.createEntityManager();
 
@@ -77,6 +77,25 @@ public class EventoDAO {
 		} finally {
 			em.close();
 			// factory.close();
+		}
+	}
+	
+	public void refresh(Long id) {
+		EntityManager em = factory.createEntityManager();
+		try {
+			Evento ref = em.find(Evento.class, id);
+			em.refresh(ref);
+		}finally {
+			em.close();
+		}
+	}
+	
+	public void refresh(Evento ev) {
+		EntityManager em = factory.createEntityManager();
+		try {
+			em.refresh(ev);
+		}finally {
+			em.close();
 		}
 	}
 

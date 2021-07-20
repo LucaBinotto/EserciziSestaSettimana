@@ -23,8 +23,9 @@ public class Start {
 		
 		System.out.println(matr.getDescrizione());
 		Evento matrimonio = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 120);
-		ed.refresh(matrimonio);
-	
+		ed.update(matrimonio);
+		
+		
 	}
 
 }
