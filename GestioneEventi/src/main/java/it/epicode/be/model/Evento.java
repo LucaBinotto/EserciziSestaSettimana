@@ -1,6 +1,6 @@
 package it.epicode.be.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 @Entity
 public class Evento {
@@ -19,7 +18,7 @@ public class Evento {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="chiaveEvento")
 	private Long id;
 	private String titolo;
-	private Date dataEvento;
+	private LocalDate dataEvento;
 	private String descrizione;
 	public enum TipoEvento {PUBBLICO, PRIVATO};
 	@Enumerated(EnumType.STRING)
@@ -27,14 +26,14 @@ public class Evento {
 	private int numeroMassimoPartecipanti;
 	@OneToMany
 	private Set<Partecipazione> partecipazioni;
-	@OneToOne
+	@ManyToOne
 	private Location location;
 
 	public Evento() {
 		
 	}
 	
-	public Evento(Long id, String titolo, Date dataEvento, String descrizione, TipoEvento tipoEvento,
+	public Evento(Long id, String titolo, LocalDate dataEvento, String descrizione, TipoEvento tipoEvento,
 			int numeroMassimoPartecipanti) {
 		this.id = id;
 		this.titolo = titolo;
@@ -44,7 +43,7 @@ public class Evento {
 		this.numeroMassimoPartecipanti = numeroMassimoPartecipanti;
 	}
 	
-	public Evento(String titolo, Date dataEvento, String descrizione, TipoEvento tipoEvento,
+	public Evento(String titolo, LocalDate dataEvento, String descrizione, TipoEvento tipoEvento,
 			int numeroMassimoPartecipanti) {
 		this.titolo = titolo;
 		this.dataEvento = dataEvento;
@@ -65,10 +64,10 @@ public class Evento {
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
-	public Date getDataEvento() {
+	public LocalDate getDataEvento() {
 		return dataEvento;
 	}
-	public void setDataEvento(Date dataEvento) {
+	public void setDataEvento(LocalDate dataEvento) {
 		this.dataEvento = dataEvento;
 	}
 	public String getDescrizione() {

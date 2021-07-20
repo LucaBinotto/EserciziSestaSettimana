@@ -16,6 +16,14 @@ public class Location {
 	private String citta;
 	
 	
+	
+	public Location() {
+	}
+	
+	public Location(String nome, String citta) {
+		this.nome = nome;
+		this.citta = citta;
+	}
 	public Long getId() {
 		return id;
 	}

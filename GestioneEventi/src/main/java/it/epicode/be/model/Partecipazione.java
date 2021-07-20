@@ -27,6 +27,15 @@ public class Partecipazione {
 	
 	
 	
+	public Partecipazione() {
+		
+	}
+	
+	public Partecipazione(Stato stato) {
+		this.stato = stato;
+	}
+
+
 	public Long getId() {
 		return id;
 	}

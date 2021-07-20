@@ -1,6 +1,6 @@
 package it.epicode.be.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class Persona {
 	private String nome;
 	private String cognome;
 	private String email;
-	private Date  dataDiNascita;
+	private LocalDate  dataDiNascita;
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
 	
@@ -30,6 +30,17 @@ public class Persona {
 	private List<Partecipazione> listaPartecipazioni; // (ordinata per dataEvento)
 	
 	
+	
+	public Persona() {
+	}
+
+	public Persona(String nome, String cognome, String email, LocalDate dataDiNascita, Sesso sesso) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.email = email;
+		this.dataDiNascita = dataDiNascita;
+		this.sesso = sesso;
+	}
 	
 	public Long getId() {
 		return id;
@@ -55,10 +66,10 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getDataDiNascita() {
+	public LocalDate getDataDiNascita() {
 		return dataDiNascita;
 	}
-	public void setDataDiNascita(Date dataDiNascita) {
+	public void setDataDiNascita(LocalDate dataDiNascita) {
 		this.dataDiNascita = dataDiNascita;
 	}
 	public Sesso getSesso() {

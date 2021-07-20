@@ -40,11 +40,17 @@ public class EventoDAO {
 		try {
 			Evento del = em.find(Evento.class, id);
 			em.getTransaction().begin();
-			em.remove(del);
+			try{
+				em.remove(del);
+			}catch(IllegalStateException e) {
+				
+			}
 			em.getTransaction().commit();
 			
 		} catch (IllegalArgumentException e) {
+			
 			System.out.println("Evento già eliminato");
+			
 		}
 	}
 	public void refresh(Long id) {
