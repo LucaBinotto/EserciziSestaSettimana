@@ -2,14 +2,20 @@ package it.epicode.be.model.data;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import it.epicode.be.model.Evento;
+import it.epicode.be.utils.JpaUtil;
 
 public class EventoDAO {
 
+	private EntityManagerFactory factory;
+
+	public EventoDAO(JpaUtil ju) {
+		factory = JpaUtil.getEntityManagerFactory();
+	}
+
 	public void save(Evento ev) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("GestioneEventi");
+
 		EntityManager em = factory.createEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -18,39 +24,41 @@ public class EventoDAO {
 
 		} finally {
 			em.close();
-			factory.close();
+			// factory.close();
 		}
 	}
 
 	public Evento getById(Long id) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("GestioneEventi");
+
 		EntityManager em = factory.createEntityManager();
 		try {
 			Evento found = em.find(Evento.class, id);
 			return found;
 		} finally {
 			em.close();
-			factory.close();
+			// factory.close();
 		}
 
 	}
 
 	public void delete(Long id) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("GestioneEventi");
+
 		EntityManager em = factory.createEntityManager();
 		try {
+			Evento del = em.find(Evento.class, id);
 			em.getTransaction().begin();
-			//em.persist(ev);
+			em.remove(del);
 			em.getTransaction().commit();
-			//TODO
+		} catch (IllegalArgumentException e) {
+			System.out.println("Evento già eliminato");
 		} finally {
 			em.close();
-			factory.close();
+			// factory.close();
 		}
 	}
 
 	public void refresh(Evento ev) {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("GestioneEventi");
+
 		EntityManager em = factory.createEntityManager();
 
 		try {
@@ -68,7 +76,7 @@ public class EventoDAO {
 
 		} finally {
 			em.close();
-			factory.close();
+			// factory.close();
 		}
 	}
 

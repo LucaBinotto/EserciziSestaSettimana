@@ -17,6 +17,21 @@ public class Evento {
 	@Enumerated(EnumType.STRING)
 	private TipoEvento tipoEvento;
 	private int numeroMassimoPartecipanti;
+	
+
+	public Evento() {
+		
+	}
+	
+	public Evento(Long id, String titolo, Date dataEvento, String descrizione, TipoEvento tipoEvento,
+			int numeroMassimoPartecipanti) {
+		this.id = id;
+		this.titolo = titolo;
+		this.dataEvento = dataEvento;
+		this.descrizione = descrizione;
+		this.tipoEvento = tipoEvento;
+		this.numeroMassimoPartecipanti = numeroMassimoPartecipanti;
+	}
 	public Long getId() {
 		return id;
 	}
