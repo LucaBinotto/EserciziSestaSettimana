@@ -7,61 +7,45 @@ import it.epicode.be.model.Evento;
 import it.epicode.be.utils.JpaUtil;
 
 public class EventoDAO {
-
 	private EntityManagerFactory factory;
-
+	private EntityManager em;
+	
+	
 	public EventoDAO(JpaUtil ju) {
 		factory = JpaUtil.getEntityManagerFactory();
+		em = JpaUtil.getEntityManager();
+		em.getTransaction().begin();
+	}
+	
+	public void closeEM() {
+		factory.close();
+		em.close();
 	}
 
 	public void save(Evento ev) {
-
-		EntityManager em = factory.createEntityManager();
-		try {
-			em.getTransaction().begin();
+		
+			//em.getTransaction().begin();
 			em.persist(ev);
 			em.getTransaction().commit();
-
-		} finally {
-			em.close();
-			// factory.close();
-		}
 	}
 
 	public Evento getById(Long id) {
-
-		EntityManager em = factory.createEntityManager();
-		try {
 			Evento found = em.find(Evento.class, id);
 			return found;
-		} finally {
-			em.close();
-			// factory.close();
 		}
 
-	}
-
 	public void delete(Long id) {
-
-		EntityManager em = factory.createEntityManager();
 		try {
 			Evento del = em.find(Evento.class, id);
-			em.getTransaction().begin();
+			//em.getTransaction().begin();
 			em.remove(del);
 			em.getTransaction().commit();
 		} catch (IllegalArgumentException e) {
 			System.out.println("Evento già eliminato");
-		} finally {
-			em.close();
-			// factory.close();
-		}
+		} 
 	}
 
 	public void update(Evento ev) {
-
-		EntityManager em = factory.createEntityManager();
-
-		try {
 
 			Evento updated = em.find(Evento.class, ev.getId());
 			updated.setTitolo(ev.getTitolo());
@@ -70,33 +54,19 @@ public class EventoDAO {
 			updated.setTipoEvento(ev.getTipoEvento());
 			updated.setNumeroMassimoPartecipanti(ev.getNumeroMassimoPartecipanti());
 
-			em.getTransaction().begin();
+			//em.getTransaction().begin();
 			em.persist(updated);
 			em.getTransaction().commit();
-
-		} finally {
-			em.close();
-			// factory.close();
-		}
 	}
 	
 	public void refresh(Long id) {
-		EntityManager em = factory.createEntityManager();
-		try {
 			Evento ref = em.find(Evento.class, id);
 			em.refresh(ref);
-		}finally {
-			em.close();
-		}
+		
 	}
 	
 	public void refresh(Evento ev) {
-		EntityManager em = factory.createEntityManager();
-		try {
 			em.refresh(ev);
-		}finally {
-			em.close();
-		}
 	}
 
 }

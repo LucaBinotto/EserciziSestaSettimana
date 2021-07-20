@@ -22,9 +22,15 @@ public class Start {
 		ed.delete(2l);
 		
 		System.out.println(matr.getDescrizione());
-		Evento matrimonio = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 120);
+		Evento matrimonio = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 50);
 		ed.update(matrimonio);
-		
+		ed.getById(1l);
+		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
+		ed.refresh(1l);
+		ed.getById(1l);
+		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
+		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
+		ed.closeEM();
 		
 	}
 
