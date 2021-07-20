@@ -8,65 +8,76 @@ import it.epicode.be.utils.JpaUtil;
 
 public class EventoDAO {
 	private EntityManagerFactory factory;
-	private EntityManager em;
-	
-	
+	// private EntityManager em;
+
 	public EventoDAO(JpaUtil ju) {
 		factory = JpaUtil.getEntityManagerFactory();
-		em = JpaUtil.getEntityManager();
-		em.getTransaction().begin();
+		// em = JpaUtil.getEntityManager();
+		// em.getTransaction().begin();
 	}
-	
-	public void closeEM() {
+
+	public void closeFA() {
+		// em.getTransaction().commit();
 		factory.close();
-		em.close();
+		// em.close();
 	}
 
 	public void save(Evento ev) {
+		EntityManager em = JpaUtil.getEntityManager();
 		
-			//em.getTransaction().begin();
+			System.out.println(em.isOpen());
+			em.getTransaction().begin();
 			em.persist(ev);
 			em.getTransaction().commit();
+		
 	}
 
 	public Evento getById(Long id) {
-			Evento found = em.find(Evento.class, id);
-			return found;
-		}
+		EntityManager em = JpaUtil.getEntityManager();
+		Evento found = em.find(Evento.class, id);
+		
+		return found;
+	}
 
 	public void delete(Long id) {
+		EntityManager em = JpaUtil.getEntityManager();
 		try {
 			Evento del = em.find(Evento.class, id);
-			//em.getTransaction().begin();
+			em.getTransaction().begin();
 			em.remove(del);
 			em.getTransaction().commit();
+			
 		} catch (IllegalArgumentException e) {
 			System.out.println("Evento già eliminato");
-		} 
+		}
 	}
-
+	@Deprecated
 	public void update(Evento ev) {
+		EntityManager em = JpaUtil.getEntityManager();
+		
+		Evento updated = em.find(Evento.class, ev.getId());
+		updated.setTitolo(ev.getTitolo());
+		updated.setDataEvento(ev.getDataEvento());
+		updated.setDescrizione(ev.getDescrizione());
+		updated.setTipoEvento(ev.getTipoEvento());
+		updated.setNumeroMassimoPartecipanti(ev.getNumeroMassimoPartecipanti());
 
-			Evento updated = em.find(Evento.class, ev.getId());
-			updated.setTitolo(ev.getTitolo());
-			updated.setDataEvento(ev.getDataEvento());
-			updated.setDescrizione(ev.getDescrizione());
-			updated.setTipoEvento(ev.getTipoEvento());
-			updated.setNumeroMassimoPartecipanti(ev.getNumeroMassimoPartecipanti());
-
-			//em.getTransaction().begin();
-			em.persist(updated);
-			em.getTransaction().commit();
-	}
-	
-	public void refresh(Long id) {
-			Evento ref = em.find(Evento.class, id);
-			em.refresh(ref);
+		em.getTransaction().begin();
+		em.persist(updated);
+		em.getTransaction().commit();
 		
 	}
-	
+
+	public void refresh(Long id) {
+		EntityManager em = JpaUtil.getEntityManager();
+		Evento ref = em.find(Evento.class, id);
+		em.refresh(ref);
+
+	}
+
 	public void refresh(Evento ev) {
-			em.refresh(ev);
+		EntityManager em = JpaUtil.getEntityManager();
+		em.refresh(ev);
 	}
 
 }

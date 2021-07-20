@@ -11,26 +11,32 @@ public class Start {
 
 	public static void main(String[] args) {
 		
-		//Evento matrimonio = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 80);
-		//Evento matrimonio2 = new Evento(2l, "gatto e cane", new Date(), "fascia bassa", TipoEvento.PUBBLICO, 4);
+		Evento matrimonio = new Evento("giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 80);
+		Evento matrimonio2 = new Evento("gatto e cane", new Date(), "fascia bassa", TipoEvento.PUBBLICO, 4);
 
 		EventoDAO ed = new EventoDAO(new JpaUtil());
-		//ed.save(matrimonio);
-		//ed.save(matrimonio2);
+		ed.save(matrimonio);
+		ed.save(matrimonio2);
 		
-		Evento matr = ed.getById(1l);
-		ed.delete(2l);
+		/*
+		Evento matr = ed.getById(9l);
+		ed.delete(17l);
 		
 		System.out.println(matr.getDescrizione());
-		Evento matrimonio = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 50);
-		ed.update(matrimonio);
-		ed.getById(1l);
+		
+		/*
+		Evento matrimoniomodif = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 50);
+		ed.update(matrimoniomodif);
+		*/
+		/*
+		ed.getById(22l);
 		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
-		ed.refresh(1l);
-		ed.getById(1l);
+		ed.refresh(26l);
+		ed.getById(26l);
 		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
 		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
-		ed.closeEM();
+		ed.closeFA();
+		*/
 		
 	}
 
