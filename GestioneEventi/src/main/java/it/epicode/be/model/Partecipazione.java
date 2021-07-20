@@ -3,15 +3,24 @@ package it.epicode.be.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Partecipazione {
-	
+
 	public enum Stato {CONFERMATA, DA_CONFERMARE};
 	@Id
+	@SequenceGenerator(name="chiavePartecipazione", sequenceName = "partecipazione_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="chiavePartecipazione")
 	private Long id;
+	@ManyToOne
 	private Persona persona;
+	@OneToOne
 	private Evento evento;
 	@Enumerated(EnumType.STRING)
 	private Stato stato;

@@ -6,12 +6,18 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 @Entity
 public class Persona {
 	
 	public enum Sesso{Maschio, Femmina};
 	@Id
+	@SequenceGenerator(name="chiavePersona", sequenceName = "persona_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="chiavePersona")
 	private Long id;
 	private String nome;
 	private String cognome;
@@ -19,9 +25,9 @@ public class Persona {
 	private Date  dataDiNascita;
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
+	
+	@OneToMany(mappedBy = "persona")
 	private List<Partecipazione> listaPartecipazioni; // (ordinata per dataEvento)
-	
-	
 	
 	
 	

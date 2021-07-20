@@ -1,11 +1,16 @@
 package it.epicode.be.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Location {
 	@Id
+	@SequenceGenerator(name="chiaveLocation", sequenceName = "location_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="chiaveLocation")
 	private Long id;
 	private String nome;
 	private String citta;
@@ -17,6 +22,7 @@ public class Location {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public String getNome() {
 		return nome;
 	}

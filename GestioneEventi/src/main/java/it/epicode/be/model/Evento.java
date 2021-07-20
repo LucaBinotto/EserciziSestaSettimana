@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 @Entity
 public class Evento {
@@ -23,7 +25,9 @@ public class Evento {
 	@Enumerated(EnumType.STRING)
 	private TipoEvento tipoEvento;
 	private int numeroMassimoPartecipanti;
+	@OneToMany
 	private Set<Partecipazione> partecipazioni;
+	@OneToOne
 	private Location location;
 
 	public Evento() {

@@ -3,14 +3,14 @@ package it.epicode.be.model.data;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import it.epicode.be.model.Evento;
+import it.epicode.be.model.Persona;
 import it.epicode.be.utils.JpaUtil;
 
-public class EventoDAO {
+public class PersonaDAO {
+	
 	private EntityManagerFactory factory;
-	// private EntityManager em;
-
-	public EventoDAO(JpaUtil ju) {
+	
+	public PersonaDAO(JpaUtil ju) {
 		factory = JpaUtil.getEntityManagerFactory();
 		// em = JpaUtil.getEntityManager();
 		// em.getTransaction().begin();
@@ -20,7 +20,7 @@ public class EventoDAO {
 		factory.close();
 		// em.close();
 	}
-	public void save(Evento ev) {
+	public void save(Persona ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 		
 			System.out.println(em.isOpen());
@@ -29,52 +29,29 @@ public class EventoDAO {
 			em.getTransaction().commit();
 		
 	}
-	public Evento getById(Long id) {
+	public Persona getById(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
-		Evento found = em.find(Evento.class, id);
+		Persona found = em.find(Persona.class, id);
 		
 		return found;
 	}
 	public void delete(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		try {
-			Evento del = em.find(Evento.class, id);
+			Persona del = em.find(Persona.class, id);
 			em.getTransaction().begin();
 			em.remove(del);
 			em.getTransaction().commit();
 			
 		} catch (IllegalArgumentException e) {
-			System.out.println("Evento già eliminato");
+			System.out.println("Persona già eliminata");
 		}
 	}
 	public void refresh(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
-		Evento ref = em.find(Evento.class, id);
+		Persona ref = em.find(Persona.class, id);
 		em.refresh(ref);
 
 	}
 	
-	
-	@Deprecated
-	public void update(Evento ev) {
-		EntityManager em = JpaUtil.getEntityManager();
-		
-		Evento updated = em.find(Evento.class, ev.getId());
-		updated.setTitolo(ev.getTitolo());
-		updated.setDataEvento(ev.getDataEvento());
-		updated.setDescrizione(ev.getDescrizione());
-		updated.setTipoEvento(ev.getTipoEvento());
-		updated.setNumeroMassimoPartecipanti(ev.getNumeroMassimoPartecipanti());
-
-		em.getTransaction().begin();
-		em.persist(updated);
-		em.getTransaction().commit();
-		
-	}
-	@Deprecated
-	public void refresh(Evento ev) {
-		EntityManager em = JpaUtil.getEntityManager();
-		em.refresh(ev);
-	}
-
 }
