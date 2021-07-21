@@ -81,6 +81,23 @@ public class EventoDAO {
 		em.getTransaction().commit();
 
 	}
+	
+	public void update(Long id, Evento ev) {
+		EntityManager em = JpaUtil.getEntityManager();
+
+		Evento updated = em.find(Evento.class, id);
+		updated.setTitolo(ev.getTitolo());
+		updated.setDataEvento(ev.getDataEvento());
+		updated.setDescrizione(ev.getDescrizione());
+		updated.setTipoEvento(ev.getTipoEvento());
+		updated.setNumeroMassimoPartecipanti(ev.getNumeroMassimoPartecipanti());
+		updated.setLocation(ev.getLocation());
+			
+		em.getTransaction().begin();
+		em.persist(updated);
+		em.getTransaction().commit();
+
+	}
 
 	
 

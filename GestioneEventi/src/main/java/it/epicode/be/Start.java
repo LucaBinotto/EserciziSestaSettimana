@@ -18,16 +18,20 @@ import it.epicode.be.utils.JpaUtil;
 
 public class Start {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
 		Location lo = new Location("Villa Razzi", "Palermo");
-		
-		Evento matrimonio = new Evento("giulia e marco", LocalDate.now(), "fascia alta", TipoEvento.PRIVATO, 80, lo);
-		Evento matrimonio2 = new Evento("gatto e cane", LocalDate.now(), "fascia bassa", TipoEvento.PUBBLICO, 4, lo);
-		Persona pe = new Persona("Luca", "Binotto", "1@2.3", LocalDate.of(1994, 1, 28), Sesso.Maschio);
+		Location lo2 = new Location("Parco Wandel", "Mosca");
+
+		Evento matrimonio = new Evento("giulia e marco", LocalDate.of(2022, 3, 15), "fascia alta", TipoEvento.PRIVATO, 80, lo);
+		Evento matrimonio2 = new Evento("gatto e cane", LocalDate.of(2022, 2, 15), "fascia bassa", TipoEvento.PUBBLICO, 4, lo);
+		Persona pe = new Persona("Luca", "Binotto", "1@2.3", LocalDate.of(1994, 2, 15), Sesso.Maschio);
+		Persona pe2 = new Persona("Tizia", "Rossi", "1@2.3", LocalDate.of(1985, 5, 26), Sesso.Femmina);
 		Partecipazione pa = new Partecipazione(pe, matrimonio, Stato.CONFERMATA);
 		Partecipazione pa2 = new Partecipazione(pe, matrimonio2, Stato.CONFERMATA);
 		
+		matrimonio2.setLocation(lo2);
 		
 		LocationDAO ld = new LocationDAO(new JpaUtil());
 		EventoDAO ed = new EventoDAO(new JpaUtil());
@@ -35,18 +39,26 @@ public class Start {
 		PartecipazioneDAO pad = new PartecipazioneDAO(new JpaUtil());
 		
 		/*
+		Evento toUpdate = ed.getById(2l);
+		toUpdate.setLocation(lo2);
+		ed.update(2l, toUpdate);
+		*/
+		
+		
+		/*
 		ld.save(lo);
 		ed.save(matrimonio);
-		ed.save(matrimonio2);
+		
 		pd.save(pe);
 		pad.save(pa);
 		pad.save(pa2);
+		
+		pd.save(pe2);
 		*/
-			
 		List<Evento> rr = ld.getById(1l).getEventi();
 		rr.stream().forEach(xx -> System.out.println(xx.getTitolo()));
-		
-		
+		List<Partecipazione> yy = pd.getById(1l).getListaPartecipazioni();
+		yy.stream().forEach(xx -> System.out.println(xx.getEvento().getTitolo()));
 		
 		
 		/*
@@ -60,7 +72,7 @@ public class Start {
 		
 		
 		/*
-		 * ed.delete(4l);
+		ed.delete(4l);
 		ed.save(matrimonio);
 		ed.save(matrimonio2);
 	
@@ -74,11 +86,15 @@ public class Start {
 		ed.delete(10l);
 		
 		System.out.println(matr.getDescrizione());
+		*/
+		
 		
 		/*
 		Evento matrimoniomodif = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 50);
 		ed.update(matrimoniomodif);
 		*/
+		
+		
 		/*
 		ed.getById(1l);
 		System.out.println(matrimonio.getNumeroMassimoPartecipanti());

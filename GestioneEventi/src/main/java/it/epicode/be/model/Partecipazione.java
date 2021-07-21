@@ -1,5 +1,7 @@
 package it.epicode.be.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -63,6 +65,8 @@ public class Partecipazione {
 		this.stato = stato;
 	}
 	
-	
+	public LocalDate getDataEvento() {
+		return getEvento().getDataEvento();
+	}
 	
 }

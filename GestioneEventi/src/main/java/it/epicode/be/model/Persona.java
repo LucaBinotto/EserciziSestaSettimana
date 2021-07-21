@@ -27,6 +27,7 @@ public class Persona {
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
 	@OneToMany(mappedBy = "persona", cascade = CascadeType.REMOVE)
+	//@OrderBy("evento ASC")
 	private List<Partecipazione> listaPartecipazioni; // (ordinata per dataEvento)
 	
 	
@@ -79,6 +80,9 @@ public class Persona {
 		this.sesso = sesso;
 	}
 	public List<Partecipazione> getListaPartecipazioni() {
+		
+		//listaPartecipazioni.stream().map(e-> e.getD()).sorted()
+		
 		return listaPartecipazioni;
 	}
 	public void setListaPartecipazioni(List<Partecipazione> listaPartecipazioni) {

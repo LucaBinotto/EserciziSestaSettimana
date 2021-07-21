@@ -1,7 +1,9 @@
 package it.epicode.be.model;
 
+
 import java.time.LocalDate;
 import java.util.Set;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,6 +30,7 @@ public class Evento {
 	private TipoEvento tipoEvento;
 	private int numeroMassimoPartecipanti;
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.REMOVE)
+	//@OrderBy("dataEvento ASC")
 	private Set<Partecipazione> partecipazioni;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Location location;
@@ -108,7 +111,6 @@ public class Evento {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
-	
+
 	
 }
