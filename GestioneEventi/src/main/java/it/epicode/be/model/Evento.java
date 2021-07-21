@@ -19,8 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) //schema2
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //schema3
+//@Inheritance(strategy = InheritanceType.JOINED) //schema2
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //schema3
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE) //schema1
 
 public class Evento {
