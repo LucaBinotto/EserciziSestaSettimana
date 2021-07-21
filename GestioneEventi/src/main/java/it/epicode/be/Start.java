@@ -1,6 +1,7 @@
 package it.epicode.be;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import it.epicode.be.model.Concerto;
 import it.epicode.be.model.Concerto.Genere;
@@ -24,7 +25,7 @@ public class Start {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
-		creazioneLoEvPePaESalvataggio();
+		//creazioneLoEvPePaESalvataggio();
 
 		LocationDAO ld = new LocationDAO(new JpaUtil());
 		EventoDAO ed = new EventoDAO(new JpaUtil());
@@ -43,6 +44,12 @@ public class Start {
 		GaraDiAtletica y = (GaraDiAtletica) ed.getById(4l);
 		y.setVincitore(pd.getById(3l));
 		ed.update(y);
+		
+		
+		
+		List<Concerto> streamed = ed.getConcertiInStreaming(true);
+		streamed.forEach(c ->System.out.println(c.getTitolo()));
+		
 		/*
 		 * NON FUNZIONA Evento toUpdate = ed.getById(2l); toUpdate.setLocation(lo2);
 		 * ed.update(2l, toUpdate);
@@ -69,7 +76,14 @@ public class Start {
 		PartitaDiCalcio partita = new PartitaDiCalcio("Italia-Inghilterra", LocalDate.of(2021, 12, 15), "finale", TipoEvento.PUBBLICO, 50000, lo3, "Italia", "Inghilterra", "Italia", 3, 2);
 		GaraDiAtletica gara = new GaraDiAtletica("Corsa", LocalDate.of(2021, 9, 30), "lunga e affascinante", TipoEvento.PRIVATO, 600, lo2);
 		GaraDiAtletica gara2 = new GaraDiAtletica("Corsa Siepi", LocalDate.of(2021, 10, 30), "corta e saltellosa", TipoEvento.PRIVATO, 300, lo2);
-		Concerto concerto = new Concerto("Metallica", LocalDate.of(2022, 4, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.ROCK, false);
+		Concerto concerto = new Concerto("Metallica", LocalDate.of(2023, 4, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.ROCK, false);
+		Concerto concerto2 = new Concerto("KDA", LocalDate.of(2023, 5, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.POP, true);
+		Concerto concerto3 = new Concerto("ACDC", LocalDate.of(2023, 6, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.ROCK, false);
+		Concerto concerto4 = new Concerto("Mozart", LocalDate.of(2023, 7, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.CLASSICO, false);
+		Concerto concerto5 = new Concerto("Billie Eilish", LocalDate.of(2023, 8, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.POP, true);
+		Concerto concerto6 = new Concerto("Bach", LocalDate.of(2023, 9, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.CLASSICO, true);
+
+		
 		
 		Persona pe = new Persona("Luca", "Binotto", "1@2.3", LocalDate.of(1994, 2, 15), Sesso.Maschio);
 		Persona pe2 = new Persona("Tizia", "Rossi", "1@2.3", LocalDate.of(1285, 5, 26), Sesso.Femmina);
@@ -116,6 +130,11 @@ public class Start {
 		ed.save(gara);
 		ed.save(gara2);
 		ed.save(concerto);
+		ed.save(concerto2);
+		ed.save(concerto3);
+		ed.save(concerto4);
+		ed.save(concerto5);
+		ed.save(concerto6);
 		
 		pd.save(pe); 
 		pd.save(pe2); 

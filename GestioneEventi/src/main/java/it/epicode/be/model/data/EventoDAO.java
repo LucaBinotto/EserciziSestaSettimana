@@ -1,8 +1,13 @@
 package it.epicode.be.model.data;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
+import it.epicode.be.model.Concerto;
+import it.epicode.be.model.Concerto.Genere;
 import it.epicode.be.model.Evento;
 import it.epicode.be.utils.JpaUtil;
 
@@ -25,7 +30,7 @@ public class EventoDAO {
 	public void save(Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 
-		//System.out.println(em.isOpen());
+		// System.out.println(em.isOpen());
 		em.getTransaction().begin();
 		em.persist(ev);
 		em.getTransaction().commit();
@@ -45,11 +50,10 @@ public class EventoDAO {
 			Evento del = em.find(Evento.class, id);
 			em.getTransaction().begin();
 			em.remove(del);
-			
 
 		} catch (IllegalArgumentException e) {
 			System.out.println("Evento già eliminato");
-		}finally {
+		} finally {
 			em.getTransaction().commit();
 		}
 	}
@@ -60,6 +64,7 @@ public class EventoDAO {
 		em.refresh(ref);
 
 	}
+
 	public void refresh(Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 		em.refresh(ev);
@@ -80,7 +85,7 @@ public class EventoDAO {
 		em.getTransaction().commit();
 
 	}
-	
+
 	public void update(Long id, Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 
@@ -91,13 +96,28 @@ public class EventoDAO {
 		updated.setTipoEvento(ev.getTipoEvento());
 		updated.setNumeroMassimoPartecipanti(ev.getNumeroMassimoPartecipanti());
 		updated.setLocation(ev.getLocation());
-			
+
 		em.getTransaction().begin();
 		em.persist(updated);
 		em.getTransaction().commit();
 
 	}
 
+	public List<Concerto> getConcertiInStreaming(boolean stream) {
+		EntityManager em = JpaUtil.getEntityManager();
+		
+			Query query = em.createNamedQuery("concertoPerStreaming");
+			query.setParameter("value", stream);
+			@SuppressWarnings("unchecked")
+			List<Concerto> result = query.getResultList();
+			return result;
+	}
+
+	public List<Concerto> getConcertiPerGenere(List<Genere> generi) {
+		
+		return null;
+	}
 	
+
 
 }

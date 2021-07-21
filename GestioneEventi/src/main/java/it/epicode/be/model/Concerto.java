@@ -5,9 +5,12 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.NamedQuery;
 
 
 @Entity
+@NamedQuery(name = "concertoPerStreaming", query = "SELECT a FROM Concerto a WHERE a.inStreaming = :value")
+//@NamedQuery(name = "concertoPerGenere", query = "")
 public class Concerto extends Evento{
 	
 	public enum Genere {CLASSICO, ROCK, POP};
