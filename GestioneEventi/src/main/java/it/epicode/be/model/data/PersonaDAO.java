@@ -41,17 +41,20 @@ public class PersonaDAO {
 			Persona del = em.find(Persona.class, id);
 			em.getTransaction().begin();
 			em.remove(del);
-			em.getTransaction().commit();
-			
 		} catch (IllegalArgumentException e) {
 			System.out.println("Persona già eliminata");
+		}finally {
+			em.getTransaction().commit();
 		}
 	}
 	public void refresh(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		Persona ref = em.find(Persona.class, id);
 		em.refresh(ref);
-
+	}
+	public void refresh(Persona ev) {
+		EntityManager em = JpaUtil.getEntityManager();
+		em.refresh(ev);
 	}
 	
 }

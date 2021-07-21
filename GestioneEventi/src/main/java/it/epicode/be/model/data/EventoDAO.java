@@ -15,56 +15,60 @@ public class EventoDAO {
 		// em = JpaUtil.getEntityManager();
 		// em.getTransaction().begin();
 	}
+
 	public void closeFA() {
 		// em.getTransaction().commit();
 		factory.close();
 		// em.close();
 	}
+
 	public void save(Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
-		
-			System.out.println(em.isOpen());
-			em.getTransaction().begin();
-			em.persist(ev);
-			em.getTransaction().commit();
-		
+
+		System.out.println(em.isOpen());
+		em.getTransaction().begin();
+		em.persist(ev);
+		em.getTransaction().commit();
+
 	}
+
 	public Evento getById(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		Evento found = em.find(Evento.class, id);
-		
+
 		return found;
 	}
+
 	public void delete(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		try {
 			Evento del = em.find(Evento.class, id);
 			em.getTransaction().begin();
-			try{
-				em.remove(del);
-			}catch(IllegalStateException e) {
-				
-			}
-			em.getTransaction().commit();
+			em.remove(del);
 			
+
 		} catch (IllegalArgumentException e) {
-			
 			System.out.println("Evento già eliminato");
-			
+		}finally {
+			em.getTransaction().commit();
 		}
 	}
+
 	public void refresh(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		Evento ref = em.find(Evento.class, id);
 		em.refresh(ref);
 
 	}
-	
-	
+	public void refresh(Evento ev) {
+		EntityManager em = JpaUtil.getEntityManager();
+		em.refresh(ev);
+	}
+
 	@Deprecated
 	public void update(Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
-		
+
 		Evento updated = em.find(Evento.class, ev.getId());
 		updated.setTitolo(ev.getTitolo());
 		updated.setDataEvento(ev.getDataEvento());
@@ -75,12 +79,9 @@ public class EventoDAO {
 		em.getTransaction().begin();
 		em.persist(updated);
 		em.getTransaction().commit();
-		
+
 	}
-	@Deprecated
-	public void refresh(Evento ev) {
-		EntityManager em = JpaUtil.getEntityManager();
-		em.refresh(ev);
-	}
+
+	
 
 }

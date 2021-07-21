@@ -3,11 +3,11 @@ package it.epicode.be.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -20,7 +20,7 @@ public class Partecipazione {
 	private Long id;
 	@ManyToOne
 	private Persona persona;
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Evento evento;
 	@Enumerated(EnumType.STRING)
 	private Stato stato;
@@ -31,7 +31,9 @@ public class Partecipazione {
 		
 	}
 	
-	public Partecipazione(Stato stato) {
+	public Partecipazione(Persona persona, Evento evento, Stato stato) {
+		this.persona = persona;
+		this.evento = evento;		
 		this.stato = stato;
 	}
 

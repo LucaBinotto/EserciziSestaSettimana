@@ -40,18 +40,21 @@ public class PartecipazioneDAO {
 		try {
 			Partecipazione del = em.find(Partecipazione.class, id);
 			em.getTransaction().begin();
-			em.remove(del);
-			em.getTransaction().commit();
-			
+			em.remove(del);		
 		} catch (IllegalArgumentException e) {
 			System.out.println("Partecipazione già eliminata");
+		}finally {
+			em.getTransaction().commit();
 		}
 	}
 	public void refresh(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		Partecipazione ref = em.find(Partecipazione.class, id);
 		em.refresh(ref);
-
+	}
+	public void refresh(Partecipazione ev) {
+		EntityManager em = JpaUtil.getEntityManager();
+		em.refresh(ev);
 	}
 	
 }

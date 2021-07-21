@@ -1,9 +1,12 @@
 package it.epicode.be.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -14,8 +17,9 @@ public class Location {
 	private Long id;
 	private String nome;
 	private String citta;
-	
-	
+	@OneToMany(mappedBy = "location")
+	private List<Evento> eventi;
+
 	
 	public Location() {
 	}
@@ -43,7 +47,14 @@ public class Location {
 	public void setCitta(String citta) {
 		this.citta = citta;
 	}
-	
+
+	public List<Evento> getEventi() {
+		return eventi;
+	}
+
+	public void setEventi(List<Evento> eventi) {
+		this.eventi = eventi;
+	}
 	
 	
 }

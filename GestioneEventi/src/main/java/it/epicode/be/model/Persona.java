@@ -3,6 +3,7 @@ package it.epicode.be.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,8 +26,7 @@ public class Persona {
 	private LocalDate  dataDiNascita;
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
-	
-	@OneToMany(mappedBy = "persona")
+	@OneToMany(mappedBy = "persona", cascade = CascadeType.REMOVE)
 	private List<Partecipazione> listaPartecipazioni; // (ordinata per dataEvento)
 	
 	

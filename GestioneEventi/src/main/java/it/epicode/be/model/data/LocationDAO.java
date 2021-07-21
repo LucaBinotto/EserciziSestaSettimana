@@ -40,18 +40,21 @@ public class LocationDAO {
 		try {
 			Location del = em.find(Location.class, id);
 			em.getTransaction().begin();
-			em.remove(del);
-			em.getTransaction().commit();
-			
+			em.remove(del);			
 		} catch (IllegalArgumentException e) {
 			System.out.println("Location già eliminata");
+		}finally {
+			em.getTransaction().commit();
 		}
 	}
 	public void refresh(Long id) {
 		EntityManager em = JpaUtil.getEntityManager();
 		Location ref = em.find(Location.class, id);
 		em.refresh(ref);
-
+	}
+	public void refresh(Location ev) {
+		EntityManager em = JpaUtil.getEntityManager();
+		em.refresh(ev);
 	}
 	
 }
