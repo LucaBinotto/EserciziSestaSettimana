@@ -1,6 +1,7 @@
 package it.epicode.be;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.epicode.be.model.Concerto;
@@ -45,10 +46,18 @@ public class Start {
 		y.setVincitore(pd.getById(3l));
 		ed.update(y);
 		
-		
+		System.out.println(Genere.CLASSICO);
 		
 		List<Concerto> streamed = ed.getConcertiInStreaming(true);
 		streamed.forEach(c ->System.out.println(c.getTitolo()));
+		
+		List<Genere> daCercare = new ArrayList<>();
+		daCercare.add(Genere.ROCK);
+		daCercare.add(Genere.CLASSICO);
+		daCercare.add(Genere.POP);
+		
+		List<Concerto> gotFromGenere = ed.getConcertiPerGenere(daCercare);
+		gotFromGenere.forEach(c ->System.out.println(c.getTitolo()));
 		
 		/*
 		 * NON FUNZIONA Evento toUpdate = ed.getById(2l); toUpdate.setLocation(lo2);

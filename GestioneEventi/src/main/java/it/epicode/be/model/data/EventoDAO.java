@@ -1,5 +1,6 @@
 package it.epicode.be.model.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -113,9 +114,25 @@ public class EventoDAO {
 			return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Concerto> getConcertiPerGenere(List<Genere> generi) {
+		EntityManager em = JpaUtil.getEntityManager();
+		if(generi==null) {
+			throw new NullPointerException();
+		}else {
+		Query query = em.createNamedQuery("concertoPerGenere");
+		Genere values = null;
+		List<Concerto> result = new ArrayList<>();
+		for(Genere x: generi) {
+			values = x;
+			query.setParameter("values", values);
+			List<Concerto> partResult = query.getResultList();
+			result.addAll(partResult);
+			//result.addAll(result.size(), query.getResultList());
+		}
 		
-		return null;
+		return result;
+		}
 	}
 	
 
