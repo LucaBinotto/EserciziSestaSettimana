@@ -25,7 +25,7 @@ public class EventoDAO {
 	public void save(Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 
-		System.out.println(em.isOpen());
+		//System.out.println(em.isOpen());
 		em.getTransaction().begin();
 		em.persist(ev);
 		em.getTransaction().commit();
@@ -65,7 +65,6 @@ public class EventoDAO {
 		em.refresh(ev);
 	}
 
-	@Deprecated
 	public void update(Evento ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 

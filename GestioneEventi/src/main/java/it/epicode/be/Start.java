@@ -1,14 +1,17 @@
 package it.epicode.be;
 
 import java.time.LocalDate;
-import java.util.List;
 
+import it.epicode.be.model.Concerto;
+import it.epicode.be.model.Concerto.Genere;
 import it.epicode.be.model.Evento;
 import it.epicode.be.model.Evento.TipoEvento;
+import it.epicode.be.model.GaraDiAtletica;
 import it.epicode.be.model.Persona.Sesso;
 import it.epicode.be.model.Location;
 import it.epicode.be.model.Partecipazione;
 import it.epicode.be.model.Partecipazione.Stato;
+import it.epicode.be.model.PartitaDiCalcio;
 import it.epicode.be.model.Persona;
 import it.epicode.be.model.data.EventoDAO;
 import it.epicode.be.model.data.LocationDAO;
@@ -20,91 +23,132 @@ public class Start {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+
+		creazioneLoEvPePaESalvataggio();
+
+		LocationDAO ld = new LocationDAO(new JpaUtil());
+		EventoDAO ed = new EventoDAO(new JpaUtil());
+		PersonaDAO pd = new PersonaDAO(new JpaUtil());
+		PartecipazioneDAO pad = new PartecipazioneDAO(new JpaUtil());
+
 		
+		GaraDiAtletica x = (GaraDiAtletica) ed.getById(5l);
+		x.addAtleta(pd.getById(1l));
+		x.addAtleta(pd.getById(2l));
+		x.addAtleta(pd.getById(3l));
+		
+		x.setVincitore(pd.getById(3l));
+		ed.update(x);
+		
+		GaraDiAtletica y = (GaraDiAtletica) ed.getById(4l);
+		y.setVincitore(pd.getById(3l));
+		ed.update(y);
+		/*
+		 * NON FUNZIONA Evento toUpdate = ed.getById(2l); toUpdate.setLocation(lo2);
+		 * ed.update(2l, toUpdate);
+		 */
+		
+		/*
+		List<Evento> rr = ld.getById(1l).getEventi();
+		rr.stream().forEach(xx -> System.out.println(xx.getTitolo()));
+		List<Partecipazione> yy = pd.getById(1l).getListaPartecipazioni();
+		yy.stream().forEach(xx -> System.out.println(xx.getEvento().getTitolo()));
+		 */
+
+	}
+
+	public static void creazioneLoEvPePaESalvataggio() {
 		Location lo = new Location("Villa Razzi", "Palermo");
 		Location lo2 = new Location("Parco Wandel", "Mosca");
-
-		Evento matrimonio = new Evento("giulia e marco", LocalDate.of(2022, 3, 15), "fascia alta", TipoEvento.PRIVATO, 80, lo);
-		Evento matrimonio2 = new Evento("gatto e cane", LocalDate.of(2022, 2, 15), "fascia bassa", TipoEvento.PUBBLICO, 4, lo);
+		Location lo3 = new Location("Stadio Allianz", "Dublino");
+		
+		
+		Evento matrimonio = new Evento("giulia e marco", LocalDate.of(2022, 3, 15), "fascia alta", TipoEvento.PRIVATO,80, lo);
+		Evento matrimonio2 = new Evento("gatto e cane", LocalDate.of(2022, 2, 15), "fascia bassa", TipoEvento.PUBBLICO,4, lo);
+		matrimonio2.setLocation(lo2);
+		PartitaDiCalcio partita = new PartitaDiCalcio("Italia-Inghilterra", LocalDate.of(2021, 12, 15), "finale", TipoEvento.PUBBLICO, 50000, lo3, "Italia", "Inghilterra", "Italia", 3, 2);
+		GaraDiAtletica gara = new GaraDiAtletica("Corsa", LocalDate.of(2021, 9, 30), "lunga e affascinante", TipoEvento.PRIVATO, 600, lo2);
+		GaraDiAtletica gara2 = new GaraDiAtletica("Corsa Siepi", LocalDate.of(2021, 10, 30), "corta e saltellosa", TipoEvento.PRIVATO, 300, lo2);
+		Concerto concerto = new Concerto("Metallica", LocalDate.of(2022, 4, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.ROCK, false);
+		
 		Persona pe = new Persona("Luca", "Binotto", "1@2.3", LocalDate.of(1994, 2, 15), Sesso.Maschio);
-		Persona pe2 = new Persona("Tizia", "Rossi", "1@2.3", LocalDate.of(1985, 5, 26), Sesso.Femmina);
+		Persona pe2 = new Persona("Tizia", "Rossi", "1@2.3", LocalDate.of(1285, 5, 26), Sesso.Femmina);
+		Persona pe3 = new Persona("Alfio", "Rondo", "1@2.3", LocalDate.of(1944, 2, 15), Sesso.Maschio);
+		Persona pe4 = new Persona("Alberto", "Fragola", "1@2.3", LocalDate.of(1997, 2, 15), Sesso.Maschio);
+		Persona pe5 = new Persona("Ciccio", "Pasticcio", "1@2.3", LocalDate.of(1964, 2, 15), Sesso.Maschio);
+		Persona pe6 = new Persona("Adja", "Binotto", "1@2.3", LocalDate.of(1934, 2, 15), Sesso.Femmina);
+		
+		
+		
 		Partecipazione pa = new Partecipazione(pe, matrimonio, Stato.CONFERMATA);
 		Partecipazione pa2 = new Partecipazione(pe, matrimonio2, Stato.CONFERMATA);
 		
-		matrimonio2.setLocation(lo2);
+		Partecipazione pa3 = new Partecipazione(pe, partita, Stato.CONFERMATA);
+		Partecipazione pa4 = new Partecipazione(pe, gara, Stato.CONFERMATA);
+		Partecipazione pa42 = new Partecipazione(pe, gara, Stato.CONFERMATA);
+		Partecipazione pa43 = new Partecipazione(pe2, gara, Stato.CONFERMATA);
+		Partecipazione pa44 = new Partecipazione(pe3, gara, Stato.CONFERMATA);
+		Partecipazione pa45 = new Partecipazione(pe4, gara, Stato.DA_CONFERMARE);
+		Partecipazione pa46 = new Partecipazione(pe5, gara, Stato.CONFERMATA);
+		Partecipazione pa47 = new Partecipazione(pe6, gara, Stato.CONFERMATA);
+		
+		Partecipazione pa5 = new Partecipazione(pe, gara2, Stato.CONFERMATA);
+		Partecipazione pa52 = new Partecipazione(pe2, gara2, Stato.CONFERMATA);
+		Partecipazione pa53 = new Partecipazione(pe3, gara2, Stato.DA_CONFERMARE);
+		Partecipazione pa54 = new Partecipazione(pe4, gara2, Stato.CONFERMATA);
+		Partecipazione pa55 = new Partecipazione(pe5, gara2, Stato.CONFERMATA);
+		
+		Partecipazione pa6 = new Partecipazione(pe, concerto, Stato.CONFERMATA);
+
 		
 		LocationDAO ld = new LocationDAO(new JpaUtil());
 		EventoDAO ed = new EventoDAO(new JpaUtil());
 		PersonaDAO pd = new PersonaDAO(new JpaUtil());
 		PartecipazioneDAO pad = new PartecipazioneDAO(new JpaUtil());
 		
-		/*
-		Evento toUpdate = ed.getById(2l);
-		toUpdate.setLocation(lo2);
-		ed.update(2l, toUpdate);
-		*/
-		
-		
-		/*
 		ld.save(lo);
-		ed.save(matrimonio);
+		ld.save(lo2);
+		ld.save(lo3);
 		
-		pd.save(pe);
-		pad.save(pa);
-		pad.save(pa2);
-		
-		pd.save(pe2);
-		*/
-		List<Evento> rr = ld.getById(1l).getEventi();
-		rr.stream().forEach(xx -> System.out.println(xx.getTitolo()));
-		List<Partecipazione> yy = pd.getById(1l).getListaPartecipazioni();
-		yy.stream().forEach(xx -> System.out.println(xx.getEvento().getTitolo()));
-		
-		
-		/*
-		Evento cercato = ed.getById(3l);
-		System.out.println(cercato.getDescrizione());
-		cercato.setDescrizione("merda alta");
-		System.out.println(cercato.getDescrizione());
-		ed.refresh(cercato);
-		System.out.println(cercato.getDescrizione());
-		*/
-		
-		
-		/*
-		ed.delete(4l);
-		ed.save(matrimonio);
+		ed.save(matrimonio); 
 		ed.save(matrimonio2);
-	
-		pd.save(pe);
+		ed.save(partita);
+		ed.save(gara);
+		ed.save(gara2);
+		ed.save(concerto);
+		
+		pd.save(pe); 
+		pd.save(pe2); 
+		pd.save(pe3); 
+		pd.save(pe4); 
+		pd.save(pe5); 
+		pd.save(pe6); 
+		
+		gara.addAtleta(pe);
+		gara.addAtleta(pe2);
+		gara.addAtleta(pe3);
+		gara.addAtleta(pe4);
+		gara.addAtleta(pe5);
+		gara.addAtleta(pe6);
+		
 		pad.save(pa);
-		ld.save(lo);
-		*/		
-		
-		/*
-		Evento matr = ed.getById(9l);
-		ed.delete(10l);
-		
-		System.out.println(matr.getDescrizione());
-		*/
-		
-		
-		/*
-		Evento matrimoniomodif = new Evento(1l, "giulia e marco", new Date(), "fascia alta", TipoEvento.PRIVATO, 50);
-		ed.update(matrimoniomodif);
-		*/
-		
-		
-		/*
-		ed.getById(1l);
-		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
-		ed.refresh(1l);
-		ed.getById(1l);
-		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
-		System.out.println(matrimonio.getNumeroMassimoPartecipanti());
-		ed.closeFA();
-		*/
-		
-	}
+		pad.save(pa2); 
+		pad.save(pa3); 
+		pad.save(pa4);
+		pad.save(pa42);
+		pad.save(pa43);
+		pad.save(pa44);
+		pad.save(pa45);
+		pad.save(pa46);
+		pad.save(pa47);
 
+		pad.save(pa5);
+		pad.save(pa52);
+		pad.save(pa53);
+		pad.save(pa54);
+		pad.save(pa55);
+		
+		pad.save(pa6); 
+	}
+	
 }

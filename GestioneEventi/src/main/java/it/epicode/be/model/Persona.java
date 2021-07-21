@@ -2,6 +2,7 @@ package it.epicode.be.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 @Entity
@@ -29,6 +31,13 @@ public class Persona {
 	@OneToMany(mappedBy = "persona", cascade = CascadeType.REMOVE)
 	//@OrderBy("evento ASC")
 	private List<Partecipazione> listaPartecipazioni; // (ordinata per dataEvento)
+	
+	@ManyToMany(mappedBy = "setAtleti")
+	private Set<GaraDiAtletica> iscrizioni;
+	
+	@OneToMany(mappedBy = "vincitore")
+	private Set<GaraDiAtletica> vittorie;
+	
 	
 	
 	

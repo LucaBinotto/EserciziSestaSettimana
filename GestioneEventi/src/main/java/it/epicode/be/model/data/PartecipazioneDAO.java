@@ -23,7 +23,7 @@ public class PartecipazioneDAO {
 	public void save(Partecipazione ev) {
 		EntityManager em = JpaUtil.getEntityManager();
 		
-			System.out.println(em.isOpen());
+			//System.out.println(em.isOpen());
 			em.getTransaction().begin();
 			em.persist(ev);
 			em.getTransaction().commit();
