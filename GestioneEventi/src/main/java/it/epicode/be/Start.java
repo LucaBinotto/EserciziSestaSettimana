@@ -52,13 +52,16 @@ public class Start {
 		streamed.forEach(c ->System.out.println(c.getTitolo()));
 		
 		List<Genere> daCercare = new ArrayList<>();
-		daCercare.add(Genere.ROCK);
+		//daCercare.add(Genere.ROCK);
 		daCercare.add(Genere.CLASSICO);
 		daCercare.add(Genere.POP);
 		
 		List<Concerto> gotFromGenere = ed.getConcertiPerGenere(daCercare);
+		List<Concerto> gotFromGenere2 = ed.getConcertiPerGenere(Genere.ROCK,Genere.POP);
+
 		gotFromGenere.forEach(c ->System.out.println(c.getTitolo()));
-		
+		System.out.println();
+		gotFromGenere2.forEach(c ->System.out.println(c.getTitolo()));
 		/*
 		 * NON FUNZIONA Evento toUpdate = ed.getById(2l); toUpdate.setLocation(lo2);
 		 * ed.update(2l, toUpdate);

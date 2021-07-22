@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQuery(name = "concertoPerStreaming", query = "SELECT a FROM Concerto a WHERE a.inStreaming = :value")
 @NamedQuery(name = "concertoPerGenere", query = "SELECT a FROM Concerto a WHERE a.genere = :values")
+//@NamedQuery(name = "concertoPerGeneri", query = "SELECT a FROM Concerto a WHERE a.genere IN ('POP','CLASSICO')")
+//NO NAMED QUERY, FARE DYNAMIC
 public class Concerto extends Evento{
 	
 	public enum Genere {CLASSICO, ROCK, POP};
@@ -40,8 +42,5 @@ public class Concerto extends Evento{
 	public void setInStreaming(boolean inStreaming) {
 		this.inStreaming = inStreaming;
 	}
-	
-	
-	
 	
 }

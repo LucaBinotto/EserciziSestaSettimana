@@ -106,35 +106,44 @@ public class EventoDAO {
 
 	public List<Concerto> getConcertiInStreaming(boolean stream) {
 		EntityManager em = JpaUtil.getEntityManager();
-		
-			Query query = em.createNamedQuery("concertoPerStreaming");
-			query.setParameter("value", stream);
-			@SuppressWarnings("unchecked")
-			List<Concerto> result = query.getResultList();
-			return result;
+
+		Query query = em.createNamedQuery("concertoPerStreaming");
+		query.setParameter("value", stream);
+		@SuppressWarnings("unchecked")
+		List<Concerto> result = query.getResultList();
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Concerto> getConcertiPerGenere(List<Genere> generi) {
 		EntityManager em = JpaUtil.getEntityManager();
-		if(generi==null) {
-			throw new NullPointerException();
-		}else {
+
 		Query query = em.createNamedQuery("concertoPerGenere");
-		Genere values = null;
 		List<Concerto> result = new ArrayList<>();
-		for(Genere x: generi) {
-			values = x;
-			query.setParameter("values", values);
+		for (Genere gen : generi) {
+			query.setParameter("values", gen);
 			List<Concerto> partResult = query.getResultList();
 			result.addAll(partResult);
-			//result.addAll(result.size(), query.getResultList());
 		}
-		
-		return result;
-		}
-	}
-	
 
+		return result;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Concerto> getConcertiPerGenere(Genere... listaGeneri) {
+		EntityManager em = JpaUtil.getEntityManager();
+		String quer = "SELECT a FROM Concerto a WHERE a.genere IN (";
+		for (Genere gen : listaGeneri) {
+			quer = quer + "'" +gen+"',";
+		}
+		quer = quer.substring(0, quer.length()-1);
+		quer = quer + ")";
+		
+		Query query = em.createQuery(quer);
+		
+		List<Concerto> result = query.getResultList();
+		return result;
+	}
 
 }
