@@ -37,6 +37,7 @@ public class Partecipazione {
 		this.persona = persona;
 		this.evento = evento;		
 		this.stato = stato;
+		evento.addPartecipante();
 	}
 
 

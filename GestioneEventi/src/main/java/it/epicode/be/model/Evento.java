@@ -16,13 +16,17 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 @Entity
-//@Inheritance(strategy = InheritanceType.JOINED) //schema2
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //schema3
+@Inheritance(strategy = InheritanceType.JOINED) //schema2
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //schema3
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE) //schema1
-
+@NamedQuery(name = "eventiSoldOut", query = "SELECT a FROM Evento a JOIN "
+		+ "(SELECT a.evento, COUNT (a.id) FROM Partecipazione a GROUP BY a.evento) b "
+		+ "ON a.id = b.evento_id "
+		+ "WHERE numeroMassimoPartecipanti = count ")
 public class Evento {
 	@Id
 	@SequenceGenerator(name="chiaveEvento", sequenceName = "evento_seq", allocationSize = 1)
@@ -40,6 +44,7 @@ public class Evento {
 	private Set<Partecipazione> partecipazioni;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Location location;
+	private int numeroPartecipanti;
 
 	public Evento() {
 		
@@ -116,6 +121,17 @@ public class Evento {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public int getNumeroPartecipanti() {
+		return numeroPartecipanti;
+	}
+
+	public void setNumeroPartecipanti(int numeroPartecipanti) {
+		this.numeroPartecipanti = numeroPartecipanti;
+	}
+	public void addPartecipante() {
+		this.numeroPartecipanti ++;
 	}
 
 	

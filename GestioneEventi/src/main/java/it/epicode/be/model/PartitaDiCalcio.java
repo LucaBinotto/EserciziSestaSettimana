@@ -3,8 +3,13 @@ package it.epicode.be.model;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = "partiteVinteInCasa", query = "SELECT a FROM PartitaDiCalcio a WHERE a.squadraDiCasa = a.squadraVincente")
+@NamedQuery(name = "partiteVinteInTrasferta", query = "SELECT a FROM PartitaDiCalcio a WHERE a.squadraInTrasferta = a.squadraVincente")
+@NamedQuery(name = "PartitePareggiate", query = "SELECT a FROM PartitaDiCalcio a WHERE a.squadraVincente IS NULL")
+
 public class PartitaDiCalcio extends Evento{
 	
 	private String squadraDiCasa;

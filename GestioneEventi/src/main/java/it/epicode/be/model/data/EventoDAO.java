@@ -10,6 +10,9 @@ import javax.persistence.Query;
 import it.epicode.be.model.Concerto;
 import it.epicode.be.model.Concerto.Genere;
 import it.epicode.be.model.Evento;
+import it.epicode.be.model.GaraDiAtletica;
+import it.epicode.be.model.PartitaDiCalcio;
+import it.epicode.be.model.Persona;
 import it.epicode.be.utils.JpaUtil;
 
 public class EventoDAO {
@@ -135,15 +138,68 @@ public class EventoDAO {
 		EntityManager em = JpaUtil.getEntityManager();
 		String quer = "SELECT a FROM Concerto a WHERE a.genere IN (";
 		for (Genere gen : listaGeneri) {
-			quer = quer + "'" +gen+"',";
+			quer = quer + "'" + gen + "',";
 		}
-		quer = quer.substring(0, quer.length()-1);
+		quer = quer.substring(0, quer.length() - 1);
 		quer = quer + ")";
-		
+
 		Query query = em.createQuery(quer);
-		
+
 		List<Concerto> result = query.getResultList();
 		return result;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<PartitaDiCalcio> getPartiteVinteInCasa() {
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("partiteVinteInCasa");
+		List<PartitaDiCalcio> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<PartitaDiCalcio> getPartiteVinteInTrasferta() {
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("partiteVinteInTrasferta");
+		List<PartitaDiCalcio> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<PartitaDiCalcio> getPartitePareggiate() {
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("PartitePareggiate");
+		List<PartitaDiCalcio> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<GaraDiAtletica> getGareDiAtleticaPerVincitore(Persona vincitore) {
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("gareDiAtleticaPerVincitore");
+		query.setParameter("vincitore", vincitore);
+		List<GaraDiAtletica> result = query.getResultList();
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<GaraDiAtletica> getGareDiAtleticaPerPartecipante(Persona partecipante) {
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("gareDiAtleticaPerPartecipante");
+		query.setParameter("partecipante", partecipante);
+		List<GaraDiAtletica> result = query.getResultList();
+		return result;
+	}
+
+	
+	public List<Evento> getEventiSoldOut() {
+		// TODO
+		return null;
+	} // [in cui il numero di partecipanti è = numeromassimopartecipanti]
+
+	public List<Evento> getEventiPerInvitato(Persona invitato) {
+		// TODO
+		return null;
+	}// **** DIFFICILE ****
 
 }

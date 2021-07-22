@@ -8,8 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = "gareDiAtleticaPerVincitore", query = "SELECT a FROM GaraDiAtletica a WHERE a.vincitore = :vincitore")
+@NamedQuery(name = "gareDiAtleticaPerPartecipante", query = "SELECT a FROM GaraDiAtletica a JOIN Partecipazione b ON a = b.evento WHERE b.persona = :partecipante")
+
 public class GaraDiAtletica extends Evento{
 	
 	@ManyToMany(fetch = FetchType.EAGER)

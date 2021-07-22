@@ -34,7 +34,7 @@ public class Start {
 		PartecipazioneDAO pad = new PartecipazioneDAO(new JpaUtil());
 
 		
-		GaraDiAtletica x = (GaraDiAtletica) ed.getById(5l);
+		GaraDiAtletica x = (GaraDiAtletica) ed.getById(10l);
 		x.addAtleta(pd.getById(1l));
 		x.addAtleta(pd.getById(2l));
 		x.addAtleta(pd.getById(3l));
@@ -42,7 +42,7 @@ public class Start {
 		x.setVincitore(pd.getById(3l));
 		ed.update(x);
 		
-		GaraDiAtletica y = (GaraDiAtletica) ed.getById(4l);
+		GaraDiAtletica y = (GaraDiAtletica) ed.getById(9l);
 		y.setVincitore(pd.getById(3l));
 		ed.update(y);
 		
@@ -62,17 +62,32 @@ public class Start {
 		gotFromGenere.forEach(c ->System.out.println(c.getTitolo()));
 		System.out.println();
 		gotFromGenere2.forEach(c ->System.out.println(c.getTitolo()));
-		/*
-		 * NON FUNZIONA Evento toUpdate = ed.getById(2l); toUpdate.setLocation(lo2);
-		 * ed.update(2l, toUpdate);
-		 */
+		
+		System.out.println();
+		List<PartitaDiCalcio> u = ed.getPartiteVinteInCasa();
+		List<PartitaDiCalcio> i = ed.getPartiteVinteInTrasferta();
+		List<PartitaDiCalcio> o = ed.getPartitePareggiate();
+		u.forEach(c ->System.out.println(c.getTitolo()));
+		System.out.println();
+		i.forEach(c ->System.out.println(c.getTitolo()));
+		System.out.println();
+		o.forEach(c ->System.out.println(c.getTitolo()));
+		
+		
+		List<GaraDiAtletica> p = ed.getGareDiAtleticaPerVincitore(pd.getById(3l));
+		System.out.println();
+		p.forEach(c ->System.out.println(c.getTitolo()));
+		List<GaraDiAtletica> a = ed.getGareDiAtleticaPerPartecipante(pd.getById(6l));
+		System.out.println();
+		a.forEach(c ->System.out.println(c.getTitolo()));
+		
 		
 		/*
-		List<Evento> rr = ld.getById(1l).getEventi();
+		List<Evento> rr = ld.getById(3l).getEventi();
 		rr.stream().forEach(xx -> System.out.println(xx.getTitolo()));
 		List<Partecipazione> yy = pd.getById(1l).getListaPartecipazioni();
 		yy.stream().forEach(xx -> System.out.println(xx.getEvento().getTitolo()));
-		 */
+		*/
 
 	}
 
@@ -85,7 +100,15 @@ public class Start {
 		Evento matrimonio = new Evento("giulia e marco", LocalDate.of(2022, 3, 15), "fascia alta", TipoEvento.PRIVATO,80, lo);
 		Evento matrimonio2 = new Evento("gatto e cane", LocalDate.of(2022, 2, 15), "fascia bassa", TipoEvento.PUBBLICO,4, lo);
 		matrimonio2.setLocation(lo2);
+		
 		PartitaDiCalcio partita = new PartitaDiCalcio("Italia-Inghilterra", LocalDate.of(2021, 12, 15), "finale", TipoEvento.PUBBLICO, 50000, lo3, "Italia", "Inghilterra", "Italia", 3, 2);
+		PartitaDiCalcio partita2 = new PartitaDiCalcio("Italia-Napoli", LocalDate.of(2021, 12, 15), "semifinale", TipoEvento.PUBBLICO, 50000, lo3, "Italia", "Napoli", null, 2, 2);
+		PartitaDiCalcio partita3 = new PartitaDiCalcio("Inghilterra-Napoli", LocalDate.of(2021, 12, 15), "semifinale", TipoEvento.PUBBLICO, 50000, lo3, "Inghilterra", "Napoli", "Napoli", 1, 2);
+		PartitaDiCalcio partita4 = new PartitaDiCalcio("Svezia-Svizzera", LocalDate.of(2021, 12, 15), "amichevole", TipoEvento.PUBBLICO, 50000, lo3, "Svezia", "Svizzera", "Svezia", 3, 2);
+		PartitaDiCalcio partita5 = new PartitaDiCalcio("Roma-Lazio", LocalDate.of(2021, 12, 15), "Serie A", TipoEvento.PUBBLICO, 50000, lo3, "Roma", "Lazio", "Lazio", 0, 4);
+		PartitaDiCalcio partita6 = new PartitaDiCalcio("Milan-Inter", LocalDate.of(2021, 12, 15), "Serie A", TipoEvento.PUBBLICO, 50000, lo3, "Milan", "Inter", null, 0, 0);
+
+		
 		GaraDiAtletica gara = new GaraDiAtletica("Corsa", LocalDate.of(2021, 9, 30), "lunga e affascinante", TipoEvento.PRIVATO, 600, lo2);
 		GaraDiAtletica gara2 = new GaraDiAtletica("Corsa Siepi", LocalDate.of(2021, 10, 30), "corta e saltellosa", TipoEvento.PRIVATO, 300, lo2);
 		Concerto concerto = new Concerto("Metallica", LocalDate.of(2023, 4, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.ROCK, false);
@@ -125,7 +148,16 @@ public class Start {
 		Partecipazione pa55 = new Partecipazione(pe5, gara2, Stato.CONFERMATA);
 		
 		Partecipazione pa6 = new Partecipazione(pe, concerto, Stato.CONFERMATA);
-
+		
+		Partecipazione pa7 = new Partecipazione(pe5, concerto2, Stato.CONFERMATA);
+		Partecipazione pa72 = new Partecipazione(pe5, concerto4, Stato.CONFERMATA);
+		Partecipazione pa73 = new Partecipazione(pe5, concerto5, Stato.DA_CONFERMARE);
+		Partecipazione pa74 = new Partecipazione(pe5, partita6, Stato.CONFERMATA);
+		
+		
+		Partecipazione pa23 = new Partecipazione(pe2, matrimonio2, Stato.CONFERMATA);
+		Partecipazione pa24 = new Partecipazione(pe3, matrimonio2, Stato.CONFERMATA);
+		Partecipazione pa25 = new Partecipazione(pe4, matrimonio2, Stato.CONFERMATA);
 		
 		LocationDAO ld = new LocationDAO(new JpaUtil());
 		EventoDAO ed = new EventoDAO(new JpaUtil());
@@ -138,7 +170,14 @@ public class Start {
 		
 		ed.save(matrimonio); 
 		ed.save(matrimonio2);
+		
 		ed.save(partita);
+		ed.save(partita2);
+		ed.save(partita3);
+		ed.save(partita4);
+		ed.save(partita5);
+		ed.save(partita6);
+
 		ed.save(gara);
 		ed.save(gara2);
 		ed.save(concerto);
@@ -180,6 +219,16 @@ public class Start {
 		pad.save(pa55);
 		
 		pad.save(pa6); 
+		
+		pad.save(pa7); 
+		pad.save(pa72); 
+		pad.save(pa73); 
+		pad.save(pa74); 
+		
+		
+		pad.save(pa23); 
+		pad.save(pa24); 
+		pad.save(pa25); 
 	}
 	
 }
