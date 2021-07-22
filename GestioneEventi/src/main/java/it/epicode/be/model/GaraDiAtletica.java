@@ -12,7 +12,8 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name = "gareDiAtleticaPerVincitore", query = "SELECT a FROM GaraDiAtletica a WHERE a.vincitore = :vincitore")
-@NamedQuery(name = "gareDiAtleticaPerPartecipante", query = "SELECT a FROM GaraDiAtletica a JOIN Partecipazione b ON a = b.evento WHERE b.persona = :partecipante")
+@NamedQuery(name = "gareDiAtleticaPerPartecipante", query = "SELECT a FROM GaraDiAtletica a WHERE :partecipante MEMBER OF a.setAtleti")
+@NamedQuery(name = "gareDiAtleticaPerSpettatore", query = "SELECT a FROM GaraDiAtletica a JOIN Partecipazione b ON a = b.evento WHERE b.persona = :spettatore")
 
 public class GaraDiAtletica extends Evento{
 	

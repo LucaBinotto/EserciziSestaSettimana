@@ -77,9 +77,12 @@ public class Start {
 		List<GaraDiAtletica> p = ed.getGareDiAtleticaPerVincitore(pd.getById(3l));
 		System.out.println();
 		p.forEach(c ->System.out.println(c.getTitolo()));
-		List<GaraDiAtletica> a = ed.getGareDiAtleticaPerPartecipante(pd.getById(6l));
+		List<GaraDiAtletica> a = ed.getGareDiAtleticaPerPartecipante(pd.getById(2l));
 		System.out.println();
 		a.forEach(c ->System.out.println(c.getTitolo()));
+		List<GaraDiAtletica> m = ed.getGareDiAtleticaPerSpettatore(pd.getById(6l));
+		System.out.println();
+		m.forEach(c ->System.out.println(c.getTitolo()));
 		
 		
 		/*

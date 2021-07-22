@@ -181,12 +181,21 @@ public class EventoDAO {
 		List<GaraDiAtletica> result = query.getResultList();
 		return result;
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	public List<GaraDiAtletica> getGareDiAtleticaPerPartecipante(Persona partecipante) {
+	public List<GaraDiAtletica> getGareDiAtleticaPerPartecipante(Persona partecipante){
 		EntityManager em = JpaUtil.getEntityManager();
 		Query query = em.createNamedQuery("gareDiAtleticaPerPartecipante");
 		query.setParameter("partecipante", partecipante);
+		List<GaraDiAtletica> result = query.getResultList();
+		return result;
+	}
+	//EXTRA
+	@SuppressWarnings("unchecked")
+	public List<GaraDiAtletica> getGareDiAtleticaPerSpettatore(Persona spettatore) {
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("gareDiAtleticaPerSpettatore");
+		query.setParameter("spettatore", spettatore);
 		List<GaraDiAtletica> result = query.getResultList();
 		return result;
 	}
