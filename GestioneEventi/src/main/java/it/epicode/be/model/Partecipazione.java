@@ -10,9 +10,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+@NamedQuery(name = "getPartecipazioniDaConfermarePerEvento", 
+query = "SELECT a FROM Partecipazione a JOIN a.evento e  WHERE a.stato = :stato AND a.evento=:evento")
+
+
+
+
 public class Partecipazione {
 
 	public enum Stato {CONFERMATA, DA_CONFERMARE};

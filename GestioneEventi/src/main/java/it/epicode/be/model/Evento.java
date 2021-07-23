@@ -23,9 +23,10 @@ import javax.persistence.SequenceGenerator;
 @Inheritance(strategy = InheritanceType.JOINED) //schema2
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //schema3
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE) //schema1
-//@NamedQuery(name = "eventiSoldOut", query = "SELECT a FROM Evento a JOIN Partecipazione b ON a = b.evento ")// WHERE a.numeroMassimoPartecipanti = cacca ")
+@NamedQuery(name = "eventiConPartecipanti", query = "SELECT DISTINCT a FROM Evento a JOIN a.partecipazioni b ")
+@NamedQuery(name = "eventiPerSpettatore", query = "SELECT b FROM Partecipazione a JOIN a.evento b WHERE a.persona = :invitato")
+@NamedQuery(name = "eventiSoldOut", query = "SELECT DISTINCT  b FROM Partecipazione a JOIN a.evento b   WHERE numeroMassimoPartecipanti = SIZE(b.partecipazioni)")
 
-@NamedQuery(name = "eventiSoldOdut", query = "SELECT a.evento, COUNT (a.id) as cacca FROM Partecipazione a GROUP BY a.evento")
 public class Evento {
 	@Id
 	@SequenceGenerator(name="chiaveEvento", sequenceName = "evento_seq", allocationSize = 1)

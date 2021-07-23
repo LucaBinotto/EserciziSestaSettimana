@@ -1,9 +1,14 @@
 package it.epicode.be.model.data;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
+import it.epicode.be.model.Evento;
 import it.epicode.be.model.Partecipazione;
+import it.epicode.be.model.Partecipazione.Stato;
 import it.epicode.be.utils.JpaUtil;
 
 public class PartecipazioneDAO {
@@ -56,5 +61,14 @@ public class PartecipazioneDAO {
 		EntityManager em = JpaUtil.getEntityManager();
 		em.refresh(ev);
 	}
-	
+	@SuppressWarnings("unchecked")
+	public List<Partecipazione> getPartecipazioniDaConfermarePerEvento(Evento evento){
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("getPartecipazioniDaConfermarePerEvento");
+		query.setParameter("stato", Stato.DA_CONFERMARE);
+		query.setParameter("evento", evento);
+		List<Partecipazione> result = query.getResultList();
+		return result;
+		
+	}
 }

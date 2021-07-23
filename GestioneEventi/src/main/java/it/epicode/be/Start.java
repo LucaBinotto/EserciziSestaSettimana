@@ -26,7 +26,7 @@ public class Start {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
-		//creazioneLoEvPePaESalvataggio();
+		creazioneLoEvPePaESalvataggio();
 
 		LocationDAO ld = new LocationDAO(new JpaUtil());
 		EventoDAO ed = new EventoDAO(new JpaUtil());
@@ -85,12 +85,25 @@ public class Start {
 		m.forEach(c ->System.out.println(c.getTitolo()));
 		
 		
-		/*
-		List<Evento> rr = ld.getById(3l).getEventi();
-		rr.stream().forEach(xx -> System.out.println(xx.getTitolo()));
-		List<Partecipazione> yy = pd.getById(1l).getListaPartecipazioni();
-		yy.stream().forEach(xx -> System.out.println(xx.getEvento().getTitolo()));
-		*/
+		List<Partecipazione> parNonConf = pad.getPartecipazioniDaConfermarePerEvento(ed.getById(9l));
+		System.out.println();
+		parNonConf.forEach(c ->System.out.println(c.getStato()));
+		
+		List<Evento> listPartForPers = ed.getEventiPerInvitato(pd.getById(5l));
+		System.out.println();
+		listPartForPers.forEach(c ->System.out.println(c.getTitolo()));
+		
+		
+		
+		
+		
+		List<Evento> j = ed.getEventiSoldOut();
+		System.out.println();
+		j.forEach(c ->System.out.println(c.getTitolo()));
+		
+		
+		
+		
 
 	}
 
@@ -112,7 +125,7 @@ public class Start {
 		PartitaDiCalcio partita6 = new PartitaDiCalcio("Milan-Inter", LocalDate.of(2021, 12, 15), "Serie A", TipoEvento.PUBBLICO, 50000, lo3, "Milan", "Inter", null, 0, 0);
 
 		
-		GaraDiAtletica gara = new GaraDiAtletica("Corsa", LocalDate.of(2021, 9, 30), "lunga e affascinante", TipoEvento.PRIVATO, 600, lo2);
+		GaraDiAtletica gara = new GaraDiAtletica("Corsa", LocalDate.of(2021, 9, 30), "lunga e affascinante", TipoEvento.PRIVATO, 7, lo2);
 		GaraDiAtletica gara2 = new GaraDiAtletica("Corsa Siepi", LocalDate.of(2021, 10, 30), "corta e saltellosa", TipoEvento.PRIVATO, 300, lo2);
 		Concerto concerto = new Concerto("Metallica", LocalDate.of(2023, 4, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.ROCK, false);
 		Concerto concerto2 = new Concerto("KDA", LocalDate.of(2023, 5, 7), "rumoroso", TipoEvento.PUBBLICO, 20000, lo3, Genere.POP, true);
@@ -137,12 +150,12 @@ public class Start {
 		
 		Partecipazione pa3 = new Partecipazione(pe, partita, Stato.CONFERMATA);
 		Partecipazione pa4 = new Partecipazione(pe, gara, Stato.CONFERMATA);
-		Partecipazione pa42 = new Partecipazione(pe, gara, Stato.CONFERMATA);
-		Partecipazione pa43 = new Partecipazione(pe2, gara, Stato.CONFERMATA);
-		Partecipazione pa44 = new Partecipazione(pe3, gara, Stato.CONFERMATA);
+		Partecipazione pa42 = new Partecipazione(pe, gara, Stato.DA_CONFERMARE);
+		Partecipazione pa43 = new Partecipazione(pe2, gara, Stato.DA_CONFERMARE);
+		Partecipazione pa44 = new Partecipazione(pe3, gara, Stato.DA_CONFERMARE);
 		Partecipazione pa45 = new Partecipazione(pe4, gara, Stato.DA_CONFERMARE);
 		Partecipazione pa46 = new Partecipazione(pe5, gara, Stato.CONFERMATA);
-		Partecipazione pa47 = new Partecipazione(pe6, gara, Stato.CONFERMATA);
+		Partecipazione pa47 = new Partecipazione(pe6, gara, Stato.DA_CONFERMARE);
 		
 		Partecipazione pa5 = new Partecipazione(pe, gara2, Stato.CONFERMATA);
 		Partecipazione pa52 = new Partecipazione(pe2, gara2, Stato.CONFERMATA);

@@ -201,14 +201,24 @@ public class EventoDAO {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	public List<Evento> getEventiSoldOut() {
-		// TODO
-		return null;
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("eventiSoldOut");
+		
+		List<Evento> result = query.getResultList();
+		return result;
+		
+		//TODO
 	} // [in cui il numero di partecipanti è = numeromassimopartecipanti]
 
+	@SuppressWarnings("unchecked")
 	public List<Evento> getEventiPerInvitato(Persona invitato) {
-		// TODO
-		return null;
-	}// **** DIFFICILE ****
+		EntityManager em = JpaUtil.getEntityManager();
+		Query query = em.createNamedQuery("eventiPerSpettatore");
+		query.setParameter("invitato", invitato);
+		List<Evento> result = query.getResultList();
+		return result;	
+		}
 
 }
