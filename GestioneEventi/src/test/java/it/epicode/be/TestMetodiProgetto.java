@@ -1,6 +1,10 @@
 package it.epicode.be;
 
+import static org.junit.Assert.assertTrue;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -195,7 +199,7 @@ public class TestMetodiProgetto {
 	public void tearDown() throws Exception {
 		
 		try {
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -206,8 +210,13 @@ public class TestMetodiProgetto {
 	public void testPartiteVinteInCasa(){
 		List<PartitaDiCalcio> u = ed.getPartiteVinteInCasa();
 		
+		PartitaDiCalcio part1 = (PartitaDiCalcio) ed.getById(3l);
+		PartitaDiCalcio part2 = (PartitaDiCalcio) ed.getById(6l);
 		
-		
+		List<PartitaDiCalcio> confronto = new ArrayList<>();
+		confronto.add(part1);
+		confronto.add(part2);
+		assertTrue(u.equals(confronto));
 		
 		
 		System.out.println();
@@ -218,6 +227,16 @@ public class TestMetodiProgetto {
 	@Test
 	public void testPartiteVinteInTrasferta() {
 		List<PartitaDiCalcio> i = ed.getPartiteVinteInTrasferta();
+
+		PartitaDiCalcio part1 = (PartitaDiCalcio) ed.getById(5l);
+		PartitaDiCalcio part2 = (PartitaDiCalcio) ed.getById(7l);
+		
+		List<PartitaDiCalcio> confronto = new ArrayList<>();
+		confronto.add(part1);
+		confronto.add(part2);
+		assertTrue(i.equals(confronto));
+		
+		
 		System.out.println();
 		System.out.println("Partite Vinte in trasferta:");
 		i.forEach(c ->System.out.println(c.getTitolo()));
@@ -226,46 +245,122 @@ public class TestMetodiProgetto {
 	@Test
 	public void testPartitePareggiate() {
 		List<PartitaDiCalcio> o = ed.getPartitePareggiate();
+
+		PartitaDiCalcio part1 = (PartitaDiCalcio) ed.getById(4l);
+		PartitaDiCalcio part2 = (PartitaDiCalcio) ed.getById(8l);
+		
+		List<PartitaDiCalcio> confronto = new ArrayList<>();
+		confronto.add(part1);
+		confronto.add(part2);
+		assertTrue(o.equals(confronto));
+		
+		
 		System.out.println();
 		System.out.println("Partite pareggiate:");
 		o.forEach(c ->System.out.println(c.getTitolo()));
 		System.out.println();
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testGareDiAtleticaPerVincitore() {
 		List<GaraDiAtletica> p = ed.getGareDiAtleticaPerVincitore(pd.getById(3l));
+
+		GaraDiAtletica gara1 = (GaraDiAtletica) ed.getById(9l);
+		GaraDiAtletica gara2 = (GaraDiAtletica) ed.getById(10l);
+		
+		List<GaraDiAtletica> confronto = new ArrayList<>();
+		confronto.add(gara1);
+		confronto.add(gara2);
+		assertTrue(new HashSet(p).equals(new HashSet(confronto)));
+		
+		
 		System.out.println();
 		System.out.println("Gare vinte da persona con id 3");
 		p.forEach(c ->System.out.println(c.getTitolo()));
 		System.out.println();
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testGareDiAtleticaPerPartecipante() {
-		List<GaraDiAtletica> a = ed.getGareDiAtleticaPerPartecipante(pd.getById(2l));
+		List<GaraDiAtletica> a = ed.getGareDiAtleticaPerPartecipante(pd.getById(4l));
+
+		GaraDiAtletica gara1 = (GaraDiAtletica) ed.getById(9l);
+		
+		List<GaraDiAtletica> confronto = new ArrayList<>();
+		confronto.add(gara1);
+		assertTrue(new HashSet(a).equals(new HashSet(confronto)));
+		
+		
 		System.out.println();
 		System.out.println("Gare di atletica per partecipante con id 2");
 		a.forEach(c ->System.out.println(c.getTitolo()));
 		System.out.println();
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testEventiSoldOut() {
 		List<Evento> j = ed.getEventiSoldOut();
+
+		Evento evento1 = ed.getById(2l);
+		Evento evento2 = ed.getById(9l);
+		
+		List<Evento> confronto = new ArrayList<>();
+		confronto.add(evento1);
+		confronto.add(evento2);
+		assertTrue(new HashSet(j).equals(new HashSet(confronto)));
+		
+		
 		System.out.println();
 		System.out.println("Eventi sold out:");
 		j.forEach(c ->System.out.println(c.getTitolo()));
 		System.out.println();
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testEventiPerInvitato() {
 		List<Evento> listPartForPers = ed.getEventiPerInvitato(pd.getById(5l));
+
+		Evento evento1 = ed.getById(9l);
+		Evento evento2 = ed.getById(10l);
+		Evento evento3 = ed.getById(12l);
+		Evento evento4 = ed.getById(14l);
+		Evento evento5 = ed.getById(15l);
+		Evento evento6 = ed.getById(8l);
+		
+		List<Evento> confronto = new ArrayList<>();
+		confronto.add(evento1);
+		confronto.add(evento2);
+		confronto.add(evento3);
+		confronto.add(evento4);
+		confronto.add(evento5);
+		confronto.add(evento6);
+		assertTrue(new HashSet(listPartForPers).equals(new HashSet(confronto)));
+		
+		
 		System.out.println();
 		System.out.println("Eventi a cui partecipa persona con id 5");
 		listPartForPers.forEach(c ->System.out.println(c.getTitolo()));
 		System.out.println();
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testPartecipazioniDaConfermarePerEvento() {
 		List<Partecipazione> parNonConf = pad.getPartecipazioniDaConfermarePerEvento(ed.getById(9l));
+
+		Partecipazione partecipa1 = pad.getById(5l);
+		Partecipazione partecipa2 = pad.getById(6l);
+		Partecipazione partecipa3 = pad.getById(7l);
+		Partecipazione partecipa4 = pad.getById(8l);
+		Partecipazione partecipa5 = pad.getById(10l);
+		
+		List<Partecipazione> confronto = new ArrayList<>();
+		confronto.add(partecipa1);
+		confronto.add(partecipa2);
+		confronto.add(partecipa3);
+		confronto.add(partecipa4);
+		confronto.add(partecipa5);
+		assertTrue(new HashSet(parNonConf).equals(new HashSet(confronto)));
+		
 		System.out.println();
 		System.out.println("Partecipazioni da confermare per evento con id 9");
 		parNonConf.forEach(c ->System.out.println(c.getId()+" "+c.getStato()));
