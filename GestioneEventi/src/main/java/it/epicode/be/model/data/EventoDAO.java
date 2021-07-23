@@ -208,8 +208,6 @@ public class EventoDAO {
 		
 		List<Evento> result = query.getResultList();
 		return result;
-		
-		//TODO
 	} // [in cui il numero di partecipanti è = numeromassimopartecipanti]
 
 	@SuppressWarnings("unchecked")

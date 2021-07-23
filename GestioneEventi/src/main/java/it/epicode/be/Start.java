@@ -32,21 +32,7 @@ public class Start {
 		EventoDAO ed = new EventoDAO(new JpaUtil());
 		PersonaDAO pd = new PersonaDAO(new JpaUtil());
 		PartecipazioneDAO pad = new PartecipazioneDAO(new JpaUtil());
-
 		
-		GaraDiAtletica x = (GaraDiAtletica) ed.getById(10l);
-		x.addAtleta(pd.getById(1l));
-		x.addAtleta(pd.getById(2l));
-		x.addAtleta(pd.getById(3l));
-		
-		x.setVincitore(pd.getById(3l));
-		ed.update(x);
-		
-		GaraDiAtletica y = (GaraDiAtletica) ed.getById(9l);
-		y.setVincitore(pd.getById(3l));
-		ed.update(y);
-		
-		System.out.println(Genere.CLASSICO);
 		
 		List<Concerto> streamed = ed.getConcertiInStreaming(true);
 		streamed.forEach(c ->System.out.println(c.getTitolo()));
@@ -93,17 +79,13 @@ public class Start {
 		System.out.println();
 		listPartForPers.forEach(c ->System.out.println(c.getTitolo()));
 		
-		
-		
-		
-		
+
 		List<Evento> j = ed.getEventiSoldOut();
 		System.out.println();
 		j.forEach(c ->System.out.println(c.getTitolo()));
 		
-		
-		
-		
+
+		JpaUtil.close();
 
 	}
 
@@ -244,7 +226,19 @@ public class Start {
 		
 		pad.save(pa23); 
 		pad.save(pa24); 
-		pad.save(pa25); 
+		pad.save(pa25);
+		
+		GaraDiAtletica x = (GaraDiAtletica) ed.getById(10l);
+		x.addAtleta(pd.getById(1l));
+		x.addAtleta(pd.getById(2l));
+		x.addAtleta(pd.getById(3l));
+		
+		x.setVincitore(pd.getById(3l));
+		ed.update(x);
+		
+		GaraDiAtletica y = (GaraDiAtletica) ed.getById(9l);
+		y.setVincitore(pd.getById(3l));
+		ed.update(y);
 	}
 	
 }

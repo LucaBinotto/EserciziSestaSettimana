@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 public class JpaUtil {
 	private static final EntityManagerFactory entityManagerFactory;
 	private static final EntityManager entityManager;
+	
 	static {
 		try {
 			entityManagerFactory = Persistence.createEntityManagerFactory("GestioneEventi");
@@ -25,6 +26,9 @@ public class JpaUtil {
 		return entityManager;
 	}
 	
-	
+	public static void close() {
+		entityManager.close();
+		entityManagerFactory.close();
+	}
 	
 }
