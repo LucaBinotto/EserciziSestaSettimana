@@ -1,45 +1,33 @@
-package it.epicode.be;
+package it.epicode.be.model.data;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-import it.epicode.be.model.Concerto;
-import it.epicode.be.model.Evento;
-import it.epicode.be.model.GaraDiAtletica;
-import it.epicode.be.model.Location;
-import it.epicode.be.model.Partecipazione;
-import it.epicode.be.model.PartitaDiCalcio;
-import it.epicode.be.model.Persona;
+import it.epicode.be.model.*;
 import it.epicode.be.model.Concerto.Genere;
 import it.epicode.be.model.Evento.TipoEvento;
 import it.epicode.be.model.Partecipazione.Stato;
 import it.epicode.be.model.Persona.Sesso;
-import it.epicode.be.model.data.EventoDAO;
-import it.epicode.be.model.data.LocationDAO;
-import it.epicode.be.model.data.PartecipazioneDAO;
-import it.epicode.be.model.data.PersonaDAO;
 import it.epicode.be.utils.JpaUtil;
 
-public class TestMetodiProgetto {
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 
-	LocationDAO ld = new LocationDAO(new JpaUtil());
+@TestMethodOrder(OrderAnnotation.class)
+class EventoDAOTest {
 	EventoDAO ed = new EventoDAO(new JpaUtil());
-	PersonaDAO pd = new PersonaDAO(new JpaUtil());
-	PartecipazioneDAO pad = new PartecipazioneDAO(new JpaUtil());
 
-	@BeforeClass
-	public static void PopolazioneDatabase() throws Exception {
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
 		Location lo = new Location("Villa Razzi", "Palermo");
 		Location lo2 = new Location("Parco Wandel", "Mosca");
 		Location lo3 = new Location("Stadio Allianz", "Dublino");
@@ -197,189 +185,113 @@ public class TestMetodiProgetto {
 		GaraDiAtletica y = (GaraDiAtletica) ed.getById(9l);
 		y.setVincitore(pd.getById(3l));
 		ed.update(y);
-
-		// JpaUtil.close();
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
 		JpaUtil.close();
 	}
 
-	@Before
-	public void setUp() throws Exception {
-		System.out.println("Metodo:");
-	}
-
-	@After
-	public void tearDown() throws Exception {
-
-		try {
-			TimeUnit.SECONDS.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+	@Test
+	@Order(1)
+	void testGetById() {
+		Location lo = new Location("Villa Razzi", "Palermo");
+		Evento test = new Evento("giulia e marco", LocalDate.of(2022, 3, 15), "fascia alta", TipoEvento.PRIVATO, 80,
+				lo);
+		Evento retrieved = ed.getById(1l);
+		assertEquals(test, retrieved);
 	}
 
 	@Test
-	public void testPartiteVinteInCasa() {
-		List<PartitaDiCalcio> u = ed.getPartiteVinteInCasa();
-
-		PartitaDiCalcio part1 = (PartitaDiCalcio) ed.getById(3l);
-		PartitaDiCalcio part2 = (PartitaDiCalcio) ed.getById(6l);
-
-		List<PartitaDiCalcio> confronto = new ArrayList<>();
-		confronto.add(part1);
-		confronto.add(part2);
-		assertEquals(u, confronto);
-
-		System.out.println();
-		System.out.println("Partite Vinte in casa:");
-		u.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
+	@Order(2)
+	void testSave() {
+		Evento prova = new Evento("PROVASAVE", LocalDate.of(2015, 2, 24), "prov", TipoEvento.PRIVATO, 10, null);
+		ed.save(prova);
+		assertEquals(ed.getById(17l), prova);
 	}
 
 	@Test
-	public void testPartiteVinteInTrasferta() {
-		List<PartitaDiCalcio> i = ed.getPartiteVinteInTrasferta();
-
-		PartitaDiCalcio part1 = (PartitaDiCalcio) ed.getById(5l);
-		PartitaDiCalcio part2 = (PartitaDiCalcio) ed.getById(7l);
-
-		List<PartitaDiCalcio> confronto = new ArrayList<>();
-		confronto.add(part1);
-		confronto.add(part2);
-		assertEquals(i, confronto);
-
-		System.out.println();
-		System.out.println("Partite Vinte in trasferta:");
-		i.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
+	@Order(3)
+	void testRefreshLong() {
+		Evento lettoDaDatabase = ed.getById(17l);
+		lettoDaDatabase.setTitolo("modificato");
+		ed.refresh(17l);
+		assertEquals("PROVASAVE", lettoDaDatabase.getTitolo());
 	}
 
 	@Test
-	public void testPartitePareggiate() {
-		List<PartitaDiCalcio> o = ed.getPartitePareggiate();
+	@Order(4)
+	void testRefreshEvento() {
+		Evento lettoDaDatabase = ed.getById(17l);
+		lettoDaDatabase.setTitolo("modificato");
+		ed.refresh(lettoDaDatabase);
+		assertEquals("PROVASAVE", lettoDaDatabase.getTitolo());
+	}
 
-		PartitaDiCalcio part1 = (PartitaDiCalcio) ed.getById(4l);
-		PartitaDiCalcio part2 = (PartitaDiCalcio) ed.getById(8l);
+	@Test
+	@Order(5)
+	void testUpdateEvento() {
+		Evento lettoDaDatabase = ed.getById(17l);
+		lettoDaDatabase.setTitolo("Potato");
+		ed.update(lettoDaDatabase);
+		Evento riletto = ed.getById(17l);
+		assertEquals("Potato", riletto.getTitolo());
+	}
 
-		List<PartitaDiCalcio> confronto = new ArrayList<>();
-		confronto.add(part1);
-		confronto.add(part2);
-		assertEquals(o, confronto);
+	@Test
+	@Order(6)
+	void testUpdateLongEvento() {
+		Evento lettoDaDatabase = ed.getById(17l);
+		lettoDaDatabase.setTitolo("Banana");
+		ed.update(17l, lettoDaDatabase);
+		Evento riletto = ed.getById(17l);
+		assertEquals("Banana", riletto.getTitolo());
+	}
 
-		System.out.println();
-		System.out.println("Partite pareggiate:");
-		o.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Test
+	@Order(7)
+	void testGetConcertiInStreaming() {
+		List<Concerto> streamedByMethod = ed.getConcertiInStreaming(true);
+		List<Concerto> streamed = new ArrayList<Concerto>();
+		streamed.add((Concerto) ed.getById(12l));
+		streamed.add((Concerto) ed.getById(15l));
+		streamed.add((Concerto) ed.getById(16l));
+		assertEquals(new HashSet(streamedByMethod), new HashSet(streamed));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
-	public void testGareDiAtleticaPerVincitore() {
-		List<GaraDiAtletica> p = ed.getGareDiAtleticaPerVincitore(pd.getById(3l));
+	@Order(8)
+	void testGetConcertiPerGenereListOfGenere() {
+		List<Genere> generi = new ArrayList<>();
+		generi.add(Genere.CLASSICO);
+		List<Concerto> generedByMethod = ed.getConcertiPerGenere(generi);
+		List<Concerto> genered = new ArrayList<>();
+		genered.add((Concerto) ed.getById(16l));
+		genered.add((Concerto) ed.getById(14l));
+		assertEquals(new HashSet(generedByMethod), new HashSet(genered));
 
-		GaraDiAtletica gara1 = (GaraDiAtletica) ed.getById(9l);
-		GaraDiAtletica gara2 = (GaraDiAtletica) ed.getById(10l);
-
-		List<GaraDiAtletica> confronto = new ArrayList<>();
-		confronto.add(gara1);
-		confronto.add(gara2);
-		assertEquals(new HashSet(p), new HashSet(confronto));
-
-		System.out.println();
-		System.out.println("Gare vinte da persona con id 3");
-		p.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
-	public void testGareDiAtleticaPerPartecipante() {
-		List<GaraDiAtletica> a = ed.getGareDiAtleticaPerPartecipante(pd.getById(4l));
-
-		GaraDiAtletica gara1 = (GaraDiAtletica) ed.getById(9l);
-
-		List<GaraDiAtletica> confronto = new ArrayList<>();
-		confronto.add(gara1);
-		assertEquals(new HashSet(a), new HashSet(confronto));
-
-		System.out.println();
-		System.out.println("Gare di atletica per partecipante con id 2");
-		a.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
+	@Order(9)
+	void testGetConcertiPerGenereGenereArray() {
+		List<Concerto> generedByMethod = ed.getConcertiPerGenere(Genere.POP,Genere.ROCK);
+		List<Concerto> genered = new ArrayList<>();
+		genered.add((Concerto) ed.getById(15l));
+		genered.add((Concerto) ed.getById(13l));
+		genered.add((Concerto) ed.getById(12l));
+		genered.add((Concerto) ed.getById(11l));
+		assertEquals(new HashSet(generedByMethod), new HashSet(genered));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
-	public void testEventiSoldOut() {
-		List<Evento> j = ed.getEventiSoldOut();
-
-		Evento evento1 = ed.getById(2l);
-		Evento evento2 = ed.getById(9l);
-
-		List<Evento> confronto = new ArrayList<>();
-		confronto.add(evento1);
-		confronto.add(evento2);
-		assertEquals(new HashSet(j), new HashSet(confronto));
-
-		System.out.println();
-		System.out.println("Eventi sold out:");
-		j.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
+	@Order(10)
+	void testDelete() {
+		ed.delete(17l);
+		assertNull(ed.getById(17l));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Test
-	public void testEventiPerInvitato() {
-		List<Evento> listPartForPers = ed.getEventiPerInvitato(pd.getById(5l));
-
-		Evento evento1 = ed.getById(9l);
-		Evento evento2 = ed.getById(10l);
-		Evento evento3 = ed.getById(12l);
-		Evento evento4 = ed.getById(14l);
-		Evento evento5 = ed.getById(15l);
-		Evento evento6 = ed.getById(8l);
-
-		List<Evento> confronto = new ArrayList<>();
-		confronto.add(evento1);
-		confronto.add(evento2);
-		confronto.add(evento3);
-		confronto.add(evento4);
-		confronto.add(evento5);
-		confronto.add(evento6);
-		assertEquals(new HashSet(listPartForPers), new HashSet(confronto));
-
-		System.out.println();
-		System.out.println("Eventi a cui partecipa persona con id 5");
-		listPartForPers.forEach(c -> System.out.println(c.getTitolo()));
-		System.out.println();
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Test
-	public void testPartecipazioniDaConfermarePerEvento() {
-		List<Partecipazione> parNonConf = pad.getPartecipazioniDaConfermarePerEvento(ed.getById(9l));
-
-		Partecipazione partecipa1 = pad.getById(5l);
-		Partecipazione partecipa2 = pad.getById(6l);
-		Partecipazione partecipa3 = pad.getById(7l);
-		Partecipazione partecipa4 = pad.getById(8l);
-		Partecipazione partecipa5 = pad.getById(10l);
-
-		List<Partecipazione> confronto = new ArrayList<>();
-		confronto.add(partecipa1);
-		confronto.add(partecipa2);
-		confronto.add(partecipa3);
-		confronto.add(partecipa4);
-		confronto.add(partecipa5);
-		assertEquals(new HashSet(parNonConf), new HashSet(confronto));
-
-		System.out.println();
-		System.out.println("Partecipazioni da confermare per evento con id 9");
-		parNonConf.forEach(c -> System.out.println(c.getId() + " " + c.getStato()));
-		System.out.println();
-	}
 }

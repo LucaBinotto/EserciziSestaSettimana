@@ -1,9 +1,7 @@
 package it.epicode.be.model;
 
-
 import java.time.LocalDate;
 import java.util.Set;
-
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -19,8 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) //schema2
+@Inheritance(strategy = InheritanceType.JOINED) // schema2
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) //schema3
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE) //schema1
 @NamedQuery(name = "eventiConPartecipanti", query = "SELECT DISTINCT a FROM Evento a JOIN a.partecipazioni b ")
@@ -29,27 +28,31 @@ import javax.persistence.SequenceGenerator;
 
 public class Evento {
 	@Id
-	@SequenceGenerator(name="chiaveEvento", sequenceName = "evento_seq", allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="chiaveEvento")
+	@SequenceGenerator(name = "chiaveEvento", sequenceName = "evento_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chiaveEvento")
 	private Long id;
 	private String titolo;
 	private LocalDate dataEvento;
 	private String descrizione;
-	public enum TipoEvento {PUBBLICO, PRIVATO};
+
+	public enum TipoEvento {
+		PUBBLICO, PRIVATO
+	};
+
 	@Enumerated(EnumType.STRING)
 	private TipoEvento tipoEvento;
 	private int numeroMassimoPartecipanti;
 	@OneToMany(mappedBy = "evento", cascade = CascadeType.REMOVE)
-	//@OrderBy("dataEvento ASC")
+	// @OrderBy("dataEvento ASC")
 	private Set<Partecipazione> partecipazioni;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Location location;
 	private int numeroPartecipanti;
 
 	public Evento() {
-		
+
 	}
-	
+
 	public Evento(Long id, String titolo, LocalDate dataEvento, String descrizione, TipoEvento tipoEvento,
 			int numeroMassimoPartecipanti) {
 		this.id = id;
@@ -59,7 +62,7 @@ public class Evento {
 		this.tipoEvento = tipoEvento;
 		this.numeroMassimoPartecipanti = numeroMassimoPartecipanti;
 	}
-	
+
 	public Evento(String titolo, LocalDate dataEvento, String descrizione, TipoEvento tipoEvento,
 			int numeroMassimoPartecipanti, Location location) {
 		this.titolo = titolo;
@@ -69,40 +72,51 @@ public class Evento {
 		this.numeroMassimoPartecipanti = numeroMassimoPartecipanti;
 		this.location = location;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getTitolo() {
 		return titolo;
 	}
+
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
+
 	public LocalDate getDataEvento() {
 		return dataEvento;
 	}
+
 	public void setDataEvento(LocalDate dataEvento) {
 		this.dataEvento = dataEvento;
 	}
+
 	public String getDescrizione() {
 		return descrizione;
 	}
+
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+
 	public TipoEvento getTipoEvento() {
 		return tipoEvento;
 	}
+
 	public void setTipoEvento(TipoEvento tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
+
 	public int getNumeroMassimoPartecipanti() {
 		return numeroMassimoPartecipanti;
 	}
+
 	public void setNumeroMassimoPartecipanti(int numeroMassimoPartecipanti) {
 		this.numeroMassimoPartecipanti = numeroMassimoPartecipanti;
 	}
@@ -130,9 +144,20 @@ public class Evento {
 	public void setNumeroPartecipanti(int numeroPartecipanti) {
 		this.numeroPartecipanti = numeroPartecipanti;
 	}
+
 	public void addPartecipante() {
-		this.numeroPartecipanti ++;
+		this.numeroPartecipanti++;
 	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Evento) {
+			Evento ev = (Evento) obj;
+			return (ev.getTitolo().equals(titolo) && ev.getDataEvento().equals(dataEvento)
+					&& ev.getDescrizione().equals(descrizione) && ev.getTipoEvento().equals(tipoEvento)
+					&& ev.getNumeroMassimoPartecipanti() == numeroMassimoPartecipanti);
+		}
+		return false;
+	}
+
 }
